@@ -3,9 +3,10 @@
  *
  * Para agregar un producto nuevo basta con añadir una entrada aquí:
  * - status "available" + detail  → genera /productos/<slug> automáticamente.
- * - status "coming-soon"         → aparece en el listado, sin página de detalle.
+ * - status "coming-soon"         → aparece en "Próximamente", sin página de detalle.
  *
  * Regla de contenido: describir solo funcionalidades que existan.
+ * "category" es el área de negocio que resuelve el producto, no su estado.
  */
 
 import { FileText, HardHat, PackageCheck, Wrench, type LucideIcon } from "lucide-react";
@@ -45,30 +46,44 @@ export interface ProductDetail {
     items: ProductFeature[];
   };
   tags?: { title: string; items: string[] };
-  cta: { title: string; description: string; label: string };
+  /** Qué cambia en el proceso al usar el producto. Sin cifras ni resultados no comprobados. */
+  outcomes?: {
+    title: string;
+    description?: string;
+    items: ProductFeature[];
+  };
+  cta: { title: string; description: string };
 }
 
 export interface Product {
   slug: string;
   name: string;
-  category: string;
-  summary: string;
-  ctaLabel: string;
+  /** Opcional en productos "Próximamente": sin categoría ni resumen se muestra solo el nombre. */
+  category?: string;
+  summary?: string;
   icon: LucideIcon;
   status: ProductStatus;
-  seo: { title: string; description: string };
+  seo?: { title: string; description: string };
   detail?: ProductDetail;
+  /** Solo "coming-soon": genera /productos/<slug> con el nombre y "Próximamente", sin más contenido. */
+  comingSoonPage?: boolean;
 }
+
+type AvailableProduct = Product & {
+  category: string;
+  summary: string;
+  seo: NonNullable<Product["seo"]>;
+  detail: ProductDetail;
+};
 
 export const products: Product[] = [
   {
     slug: "pedidoflow",
     icon: PackageCheck,
     name: "PedidoFlow B2B",
-    category: "SaaS B2B",
+    category: "Gestión de pedidos",
     summary:
       "Convierte pedidos provenientes de diferentes canales en órdenes estructuradas listas para validar y despachar.",
-    ctaLabel: "Conocer PedidoFlow",
     status: "available",
     seo: {
       title: "PedidoFlow B2B",
@@ -147,78 +162,44 @@ export const products: Product[] = [
           },
         ],
       },
+      outcomes: {
+        title: "Qué cambia en tu proceso de pedidos",
+        items: [
+          {
+            title: "Un solo punto de entrada",
+            description: "Mensajes, correos y archivos llegan a la misma bandeja.",
+          },
+          {
+            title: "Validar en lugar de transcribir",
+            description: "Tu equipo revisa una orden propuesta en vez de escribirla desde cero.",
+          },
+          {
+            title: "Seguimiento de cada orden",
+            description: "Cada pedido tiene un estado visible desde que llega hasta el despacho.",
+          },
+        ],
+      },
       cta: {
-        title: "Mira PedidoFlow con tus propios pedidos",
+        title: "Mira PedidoFlow B2B con tus propios pedidos",
         description: "Agenda una demostración y revisamos cómo se adapta a tu operación.",
-        label: "Solicitar demostración",
       },
     },
   },
   {
+    // Sin contenido funcional publicado hasta verificar lo que el producto hace hoy.
     slug: "cotizador",
     icon: FileText,
     name: "Cotizador Inteligente",
-    category: "SaaS",
-    summary:
-      "Ayuda a crear cotizaciones rápidamente a partir de las necesidades expresadas por los clientes.",
-    ctaLabel: "Conocer Cotizador",
-    status: "available",
-    seo: {
-      title: "Cotizador Inteligente",
-      description:
-        "Crea cotizaciones a partir de las necesidades expresadas por tus clientes, con control sobre productos, precios, impuestos y totales.",
-    },
-    detail: {
-      title: "Crea cotizaciones de forma más rápida.",
-      intro:
-        "Cotizador Inteligente ayuda a crear cotizaciones a partir de las necesidades expresadas por los clientes.",
-      problem: {
-        title: "Cotizar toma más tiempo del que debería",
-        description:
-          "Leer la solicitud, buscar cada producto, revisar precios, calcular impuestos y armar el documento. Un proceso repetitivo que depende de quien lo haga.",
-        points: [
-          {
-            title: "Solicitudes poco estructuradas",
-            description: "El cliente describe lo que necesita con sus propias palabras.",
-          },
-          {
-            title: "Búsqueda manual",
-            description: "Cada ítem se busca a mano en el catálogo.",
-          },
-          {
-            title: "Cálculos repetitivos",
-            description: "Precios, impuestos y totales se calculan una y otra vez.",
-          },
-        ],
-      },
-      flow: {
-        title: "De la solicitud a la cotización",
-        steps: [
-          { title: "Solicitud del cliente", description: "El cliente expresa lo que necesita." },
-          { title: "Interpretación", description: "La IA identifica los productos y cantidades solicitados." },
-          { title: "Catálogo", description: "Se relaciona cada ítem con tu catálogo real." },
-          { title: "Validación", description: "Se revisan productos, precios e impuestos." },
-          { title: "Cotización", description: "Se genera el documento con sus totales." },
-          { title: "Cliente", description: "La cotización queda lista para enviar." },
-        ],
-      },
-      highlight:
-        "La inteligencia artificial ayuda a interpretar la solicitud, mientras que el sistema mantiene el control sobre productos, precios, impuestos y totales.",
-      cta: {
-        title: "Conoce Cotizador Inteligente",
-        description: "Agenda una demostración y revisamos tu proceso de cotización.",
-        label: "Solicitar demostración",
-      },
-    },
+    status: "coming-soon",
+    comingSoonPage: true,
   },
   {
     slug: "taller-ai",
     icon: Wrench,
     name: "Taller AI",
-    category: "Próximamente",
+    category: "Talleres mecánicos",
     summary:
       "Asistente para talleres mecánicos: clientes, vehículos, órdenes de trabajo y apoyo al diagnóstico.",
-    ctaLabel: "Quiero saber más",
     status: "coming-soon",
     seo: { title: "Taller AI", description: "Asistente para talleres mecánicos." },
   },
@@ -226,10 +207,9 @@ export const products: Product[] = [
     slug: "sst",
     icon: HardHat,
     name: "Gestión SST",
-    category: "Próximamente",
+    category: "Seguridad y salud laboral",
     summary:
       "Gestión de seguridad y salud en el trabajo: documentos, contratistas y seguimiento del cumplimiento.",
-    ctaLabel: "Quiero saber más",
     status: "coming-soon",
     seo: {
       title: "Gestión SST",
@@ -239,7 +219,8 @@ export const products: Product[] = [
 ];
 
 export const availableProducts = products.filter(
-  (p): p is Product & { detail: ProductDetail } => p.status === "available" && !!p.detail,
+  (p): p is AvailableProduct =>
+    p.status === "available" && !!p.detail && !!p.seo && !!p.category && !!p.summary,
 );
 
 export const upcomingProducts = products.filter((p) => p.status === "coming-soon");
@@ -248,6 +229,32 @@ export function getProduct(slug: string) {
   return availableProducts.find((p) => p.slug === slug);
 }
 
+function hasPage(product: Product) {
+  return product.status === "available" ? !!getProduct(product.slug) : !!product.comingSoonPage;
+}
+
+/** Productos con página en /productos/<slug>: disponibles + "Próximamente" con comingSoonPage. */
+export const productsWithPage = products.filter(hasPage);
+
+export function getProductWithPage(slug: string) {
+  return productsWithPage.find((p) => p.slug === slug);
+}
+
+/** Textos de acción únicos para todo el sitio. */
+export const productActions = {
+  demo: "Solicitar demostración",
+  info: "Solicitar información",
+} as const;
+
 export function productHref(product: Product) {
-  return product.status === "available" ? `/productos/${product.slug}` : "/contacto";
+  return hasPage(product) ? `/productos/${product.slug}` : `/contacto?motivo=informacion&producto=${product.slug}`;
+}
+
+export function productDemoHref(product: Product) {
+  return `/contacto?motivo=demo&producto=${product.slug}`;
+}
+
+/** Texto del enlace de cada tarjeta de producto. */
+export function productCtaLabel(product: Product) {
+  return hasPage(product) ? `Ver ${product.name}` : `${productActions.info} sobre ${product.name}`;
 }

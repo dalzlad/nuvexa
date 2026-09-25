@@ -8,36 +8,95 @@ import { CTASection } from "@/components/CTASection";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { SectionTitle } from "@/components/SectionTitle";
 import { Button } from "@/components/ui/button";
-import { availableProducts, getProduct } from "@/content/products";
+import {
+  getProduct,
+  getProductWithPage,
+  productActions,
+  productDemoHref,
+  productsWithPage,
+  type Product,
+} from "@/content/products";
 import { cn } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 
-// Solo se generan los productos disponibles; cualquier otro slug devuelve 404.
+// Solo se generan los productos con página; cualquier otro slug devuelve 404.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return availableProducts.map((product) => ({ slug: product.slug }));
+  return productsWithPage.map((product) => ({ slug: product.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/productos/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = getProductWithPage(slug);
   if (!product) return {};
 
+  const available = getProduct(slug);
   return pageMetadata({
-    title: product.seo.title,
-    description: product.seo.description,
+    title: available?.seo.title ?? product.name,
+    description: available?.seo.description ?? `${product.name}. Próximamente.`,
     path: `/productos/${product.slug}`,
   });
 }
 
+function ProductBreadcrumb({ name }: { name: string }) {
+  return (
+    <nav aria-label="Ruta de navegación">
+      <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+        <li>
+          <Link href="/productos" className="hover:text-foreground">
+            Productos
+          </Link>
+        </li>
+        <li aria-hidden="true">
+          <ChevronRight className="size-3.5" />
+        </li>
+        <li aria-current="page" className="text-foreground">
+          {name}
+        </li>
+      </ol>
+    </nav>
+  );
+}
+
+/** Producto "Próximamente": solo nombre y estado, sin afirmaciones sobre funcionalidades. */
+function ComingSoonProduct({ product }: { product: Product }) {
+  const Icon = product.icon;
+
+  return (
+    <section aria-labelledby="producto-titulo">
+      <Container className="py-14 sm:py-20">
+        <ProductBreadcrumb name={product.name} />
+        <span
+          className="mt-10 flex size-10 items-center justify-center rounded-lg bg-muted text-muted-foreground"
+          aria-hidden="true"
+        >
+          <Icon className="size-5" />
+        </span>
+        <h1
+          id="producto-titulo"
+          className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
+        >
+          {product.name}
+        </h1>
+        <p className="mt-5 inline-flex rounded-full border px-3 py-1 text-sm font-medium text-muted-foreground">
+          Próximamente
+        </p>
+      </Container>
+    </section>
+  );
+}
+
 export default async function ProductPage({ params }: PageProps<"/productos/[slug]">) {
   const { slug } = await params;
+  const pageProduct = getProductWithPage(slug);
+  if (!pageProduct) notFound();
+
   const product = getProduct(slug);
-  if (!product) notFound();
+  if (!product) return <ComingSoonProduct product={pageProduct} />;
 
   const { detail } = product;
-  const demoHref = `/contacto?motivo=demo&producto=${product.slug}`;
+  const demoHref = productDemoHref(product);
   const Icon = product.icon;
 
   return (
@@ -45,21 +104,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
       {/* Encabezado del producto */}
       <section aria-labelledby="producto-titulo" className="border-b">
         <Container className="py-14 sm:py-20">
-          <nav aria-label="Ruta de navegación">
-            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
-              <li>
-                <Link href="/productos" className="hover:text-foreground">
-                  Productos
-                </Link>
-              </li>
-              <li aria-hidden="true">
-                <ChevronRight className="size-3.5" />
-              </li>
-              <li aria-current="page" className="text-foreground">
-                {product.name}
-              </li>
-            </ol>
-          </nav>
+          <ProductBreadcrumb name={product.name} />
 
           <div className="mt-10 flex items-center gap-3">
             <span
@@ -87,7 +132,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="xl">
               <Link href={demoHref}>
-                {detail.cta.label}
+                {productActions.demo}
                 <ArrowRight data-icon="inline-end" aria-hidden="true" />
               </Link>
             </Button>
@@ -189,10 +234,32 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
         </section>
       )}
 
+      {/* Resultado esperado */}
+      {detail.outcomes && (
+        <section aria-labelledby="resultado-titulo" className="border-t py-20 sm:py-24">
+          <Container>
+            <SectionTitle
+              id="resultado-titulo"
+              eyebrow="Resultado"
+              title={detail.outcomes.title}
+              description={detail.outcomes.description}
+            />
+            <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {detail.outcomes.items.map((item) => (
+                <li key={item.title} className="border-l-2 border-primary/30 py-1 pl-4">
+                  <h3 className="font-medium text-foreground">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+      )}
+
       <CTASection
         title={detail.cta.title}
         description={detail.cta.description}
-        primary={{ label: detail.cta.label, href: demoHref }}
+        primary={{ label: productActions.demo, href: demoHref }}
         secondary={{ label: "Ver otros productos", href: "/productos" }}
       />
     </>

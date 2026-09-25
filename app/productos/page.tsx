@@ -5,12 +5,21 @@ import { CTASection } from "@/components/CTASection";
 import { ProductCard } from "@/components/ProductCard";
 import { customSolutionCard } from "@/components/ProductsSection";
 import { SectionTitle } from "@/components/SectionTitle";
-import { availableProducts, productHref, upcomingProducts } from "@/content/products";
+import {
+  availableProducts,
+  productActions,
+  productCtaLabel,
+  productHref,
+  upcomingProducts,
+} from "@/content/products";
 import { pageMetadata } from "@/lib/metadata";
+
+const description =
+  "Cada producto resuelve un proceso operativo concreto de principio a fin. Conoce qué hace cada uno y solicita una demostración.";
 
 export const metadata: Metadata = pageMetadata({
   title: "Productos",
-  description: "Software diseñado para resolver problemas reales de operación y gestión empresarial.",
+  description,
   path: "/productos",
 });
 
@@ -21,8 +30,8 @@ export default function ProductsPage() {
         <SectionTitle
           as="h1"
           eyebrow="Productos"
-          title="Productos de NUVEXA"
-          description="Software diseñado para resolver problemas reales de operación y gestión empresarial."
+          title="Productos SaaS para la operación de tu empresa"
+          description={description}
         />
       </Container>
 
@@ -36,7 +45,7 @@ export default function ProductsPage() {
               title={product.name}
               description={product.summary}
               href={productHref(product)}
-              ctaLabel={product.ctaLabel}
+              ctaLabel={productCtaLabel(product)}
               icon={product.icon}
             />
           ))}
@@ -67,7 +76,7 @@ export default function ProductsPage() {
                   title={product.name}
                   description={product.summary}
                   href={productHref(product)}
-                  ctaLabel={product.ctaLabel}
+                  ctaLabel={productCtaLabel(product)}
                   icon={product.icon}
                 />
               ))}
@@ -77,10 +86,9 @@ export default function ProductsPage() {
       )}
 
       <CTASection
-        title="¿Ningún producto se ajusta a tu proceso?"
-        description="También construimos software a la medida de cada empresa."
-        primary={{ label: "Hablemos de tu proyecto", href: "/contacto" }}
-        secondary={{ label: "Ver servicios", href: "/servicios" }}
+        title="Mira nuestros productos en funcionamiento"
+        description="Agenda una demostración y revisamos cómo se aplica cada producto a tu operación."
+        primary={{ label: productActions.demo, href: "/contacto?motivo=demo" }}
       />
     </>
   );

@@ -15,7 +15,7 @@ export function CoverMockup() {
   return (
     <figure
       className="@container relative w-full overflow-hidden rounded-xl border bg-card shadow-[0_1px_2px_rgb(0_0_0/0.04),0_12px_32px_-12px_rgb(30_27_75/0.18)]"
-      aria-label="Ejemplo de interfaz: un pedido recibido por mensaje se convierte en una orden estructurada"
+      aria-label="Ejemplo de PedidoFlow B2B: un pedido recibido por mensaje se convierte en una orden estructurada"
     >
       {/* Barra de la ventana */}
       <div className="flex items-center gap-3 border-b bg-muted/70 px-4 py-2.5">
@@ -26,7 +26,7 @@ export function CoverMockup() {
         </div>
         <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
           <Inbox className="size-3.5" aria-hidden="true" />
-          Bandeja de pedidos
+          PedidoFlow B2B · Bandeja de pedidos
         </div>
       </div>
 

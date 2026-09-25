@@ -4,9 +4,9 @@ import { ArrowRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
-  category: string;
+  category?: string;
   title: string;
-  description: string;
+  description?: string;
   href: string;
   ctaLabel: string;
   icon: LucideIcon;
@@ -27,6 +27,9 @@ export function ProductCard({
   headingLevel: Heading = "h3",
   className,
 }: ProductCardProps) {
+  // Un producto "Próximamente" sin categoría muestra su estado en la etiqueta.
+  const badge = category ?? (variant === "upcoming" ? "Próximamente" : undefined);
+
   return (
     <article
       className={cn(
@@ -47,18 +50,24 @@ export function ProductCard({
         >
           <Icon className="size-5" />
         </span>
-        <span
-          className={cn(
-            "rounded-full border px-2.5 py-0.5 text-xs font-medium",
-            variant === "upcoming" ? "bg-background text-muted-foreground" : "text-foreground",
-          )}
-        >
-          {category}
-        </span>
+        {badge && (
+          <span
+            className={cn(
+              "rounded-full border px-2.5 py-0.5 text-xs font-medium",
+              variant === "upcoming" ? "bg-background text-muted-foreground" : "text-foreground",
+            )}
+          >
+            {badge}
+          </span>
+        )}
       </div>
 
       <Heading className="mt-6 text-lg font-semibold tracking-tight text-foreground">{title}</Heading>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
+      {description ? (
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
+      ) : (
+        <div className="flex-1" />
+      )}
 
       <Link
         href={href}

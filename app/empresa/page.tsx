@@ -1,43 +1,53 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { CTASection } from "@/components/CTASection";
 import { SectionTitle } from "@/components/SectionTitle";
-import { availableProducts } from "@/content/products";
+import { companyFocus, companyIntro } from "@/content/company";
 import { values } from "@/content/values";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: "Empresa",
-  description: "NUVEXA es una empresa de software enfocada en productos SaaS y soluciones empresariales.",
+  description:
+    "NUVEXA es una empresa de software: productos SaaS y soluciones a medida para digitalizar, automatizar e integrar procesos empresariales.",
   path: "/empresa",
 });
-
-const productNames = availableProducts.map((p) => p.name).join(" y ");
 
 export default function CompanyPage() {
   return (
     <>
       <section aria-labelledby="empresa-titulo" className="border-b">
         <Container className="grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <SectionTitle
-            as="h1"
-            id="empresa-titulo"
-            eyebrow="Empresa"
-            title="Construimos software para resolver problemas empresariales."
-          />
+          <SectionTitle as="h1" id="empresa-titulo" eyebrow="Empresa" title={companyIntro.title} />
           <div className="space-y-5 leading-relaxed text-muted-foreground lg:pt-9">
-            <p>
-              NUVEXA es una empresa de software enfocada en productos SaaS y soluciones empresariales. Desarrollamos
-              productos propios, como {productNames}, y construimos soluciones a medida para empresas que necesitan
-              digitalizar, automatizar o integrar sus procesos.
-            </p>
-            <p>
-              Partimos de una idea simple: el software debe hacer más fácil la operación diaria, no agregarle
-              complejidad. Por eso empezamos por entender el proceso y usamos la inteligencia artificial solo donde
-              aporta.
-            </p>
+            {companyIntro.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
+        </Container>
+      </section>
+
+      <section aria-labelledby="enfoque-titulo" className="border-b bg-muted/50 py-20 sm:py-24">
+        <Container>
+          <SectionTitle id="enfoque-titulo" eyebrow="Qué hacemos" title={companyFocus.title} />
+          <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:gap-5">
+            {companyFocus.items.map((item) => (
+              <li key={item.title} className="flex flex-col rounded-xl border bg-background p-6 sm:p-7">
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">{item.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <Link
+                  href={item.href}
+                  className="mt-6 inline-flex items-center gap-1.5 self-start text-sm font-medium text-primary"
+                >
+                  {item.linkLabel}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
 
@@ -62,10 +72,10 @@ export default function CompanyPage() {
       </section>
 
       <CTASection
-        title="Conoce lo que hacemos"
-        description="Explora nuestros productos o cuéntanos qué necesita tu empresa."
-        primary={{ label: "Conocer productos", href: "/productos" }}
-        secondary={{ label: "Contactar", href: "/contacto" }}
+        title="Cuéntanos qué proceso quieres simplificar"
+        description="Revisamos si uno de nuestros productos lo resuelve o si conviene una solución a medida."
+        primary={{ label: "Hablemos de tu proyecto", href: "/contacto" }}
+        secondary={{ label: "Ver productos", href: "/productos" }}
       />
     </>
   );

@@ -15,8 +15,8 @@ export function ServicesSection() {
           <SectionTitle
             id="servicios-titulo"
             eyebrow="Servicios"
-            title="Soluciones de software para empresas"
-            description="Además de nuestros productos, construimos, automatizamos e integramos software para procesos específicos."
+            title="También construimos software a la medida"
+            description="Cuando un proceso no encaja en un producto, lo desarrollamos, lo automatizamos o lo integramos con tus sistemas."
           />
           <Link
             href="/servicios"

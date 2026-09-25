@@ -17,7 +17,7 @@ export function MainCover() {
 
       <Container className="relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:py-28">
         <div>
-          <p className="text-sm font-medium text-primary">SaaS · Automatización · Inteligencia artificial</p>
+          <p className="text-sm font-medium text-primary">Software empresarial</p>
           <h1
             id="portada-titulo"
             className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] lg:leading-[1.08]"
@@ -25,13 +25,14 @@ export function MainCover() {
             Software que simplifica la operación de tu negocio.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Creamos soluciones SaaS, automatización e inteligencia artificial para convertir procesos
-            empresariales complejos en experiencias simples.
+            NUVEXA desarrolla productos SaaS, automatización, integraciones e inteligencia artificial para que
+            procesos como pedidos, cotizaciones y reportes dejen de depender de digitación manual, archivos
+            sueltos y sistemas desconectados.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="xl">
               <Link href="/productos">
-                Conocer productos
+                Ver productos
                 <ArrowRight data-icon="inline-end" aria-hidden="true" />
               </Link>
             </Button>

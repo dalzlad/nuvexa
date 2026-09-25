@@ -29,8 +29,8 @@ export default function ServicesPage() {
         <SectionTitle
           as="h1"
           eyebrow="Servicios"
-          title="Soluciones de software para empresas"
-          description="Construimos, automatizamos e integramos software para procesos empresariales, con criterio técnico y foco en el resultado para el negocio."
+          title="Desarrollo, automatización e integraciones para empresas"
+          description="Construimos software a partir de cómo opera tu empresa: aplicaciones, flujos automáticos, conexiones entre sistemas e inteligencia artificial aplicada a procesos concretos."
         />
       </Container>
 

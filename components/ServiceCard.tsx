@@ -29,16 +29,20 @@ export function ServiceCard({ service, variant = "compact", headingLevel: Headin
           </span>
           <div>
             <Heading className="text-xl font-semibold tracking-tight text-foreground">{service.title}</Heading>
-            <p className="mt-2 leading-relaxed text-muted-foreground">{service.description}</p>
+            <p className="mt-2 leading-relaxed text-muted-foreground">{service.problem}</p>
+            <p className="mt-3 leading-relaxed text-foreground">{service.solution}</p>
           </div>
         </div>
-        <ul className="flex flex-wrap content-start gap-2 md:pt-1" aria-label={`Ejemplos de ${service.title}`}>
-          {service.examples.map((example) => (
-            <li key={example} className="rounded-full border bg-background px-3 py-1.5 text-sm text-foreground">
-              {example}
-            </li>
-          ))}
-        </ul>
+        <div className="md:pt-1">
+          <p className="text-sm font-medium text-muted-foreground">Ejemplos de aplicación</p>
+          <ul className="mt-3 flex flex-wrap content-start gap-2" aria-label={`Ejemplos de ${service.title}`}>
+            {service.examples.map((example) => (
+              <li key={example} className="rounded-full border bg-background px-3 py-1.5 text-sm text-foreground">
+                {example}
+              </li>
+            ))}
+          </ul>
+        </div>
       </article>
     );
   }

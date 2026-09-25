@@ -1,10 +1,10 @@
 import {
   Briefcase,
-  Cog,
+  Eye,
+  Feather,
+  Handshake,
   Lightbulb,
   ShieldCheck,
-  Sparkles,
-  Wrench,
   type LucideIcon,
 } from "lucide-react";
 
@@ -16,33 +16,33 @@ export interface CompanyValue {
 
 export const values: CompanyValue[] = [
   {
-    title: "Tecnología práctica",
-    description: "Usamos la tecnología cuando resuelve un problema concreto.",
-    icon: Wrench,
+    title: "Claridad",
+    description: "Decimos qué hace el software y qué no. No prometemos lo que el producto no puede cumplir.",
+    icon: Eye,
   },
   {
     title: "Simplicidad",
-    description: "Interfaces claras y procesos fáciles de entender.",
-    icon: Sparkles,
+    description: "Preferimos una herramienta fácil de usar a una llena de opciones que nadie necesita.",
+    icon: Feather,
   },
   {
-    title: "Calidad",
-    description: "Software confiable, mantenible y bien construido.",
+    title: "Responsabilidad técnica",
+    description: "Construimos software confiable y mantenible, pensado para seguir funcionando después de la entrega.",
     icon: ShieldCheck,
   },
   {
-    title: "Automatización",
-    description: "Menos tareas repetitivas, más tiempo para lo importante.",
-    icon: Cog,
-  },
-  {
-    title: "Innovación",
-    description: "Aplicamos nuevas herramientas, como la IA, con criterio.",
+    title: "Criterio con la tecnología",
+    description: "Usamos la inteligencia artificial cuando resuelve un problema real, con control humano donde importa.",
     icon: Lightbulb,
   },
   {
-    title: "Orientación empresarial",
-    description: "Cada decisión técnica parte de una necesidad del negocio.",
+    title: "Foco en el negocio",
+    description: "Cada decisión técnica parte de una necesidad concreta de la operación.",
     icon: Briefcase,
+  },
+  {
+    title: "Cercanía",
+    description: "Trabajamos junto a quienes usan el software y lo ajustamos con su experiencia real.",
+    icon: Handshake,
   },
 ];

@@ -23,7 +23,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: "Productos",
     links: availableProducts.map((p) => ({
-      label: p.name.replace(/ B2B$/, ""),
+      label: p.name,
       href: `/productos/${p.slug}`,
     })),
   },

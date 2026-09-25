@@ -3,14 +3,14 @@ import { Blocks } from "lucide-react";
 import { Container } from "@/components/Container";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionTitle } from "@/components/SectionTitle";
-import { availableProducts, productHref, upcomingProducts } from "@/content/products";
+import { availableProducts, productCtaLabel, productHref, upcomingProducts } from "@/content/products";
 
 export const customSolutionCard = {
   category: "A medida",
   title: "¿Necesitas una solución diferente?",
   description: "Diseñamos software para procesos empresariales específicos.",
   href: "/servicios#desarrollo-a-medida",
-  ctaLabel: "Desarrollo a medida",
+  ctaLabel: "Ver desarrollo a medida",
   icon: Blocks,
 } as const;
 
@@ -22,8 +22,8 @@ export function ProductsSection() {
         <SectionTitle
           id="productos-titulo"
           eyebrow="Productos"
-          title="Productos de NUVEXA"
-          description="Software diseñado para resolver problemas reales de operación y gestión empresarial."
+          title="Software para procesos que se repiten cada día"
+          description="Productos propios que resuelven tareas operativas concretas, como la recepción y gestión de pedidos."
         />
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
@@ -34,7 +34,7 @@ export function ProductsSection() {
               title={product.name}
               description={product.summary}
               href={productHref(product)}
-              ctaLabel={product.ctaLabel}
+              ctaLabel={productCtaLabel(product)}
               icon={product.icon}
             />
           ))}
