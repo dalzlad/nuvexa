@@ -36,7 +36,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: "Empresa",
     links: [
-      { label: "Empresa", href: "/empresa" },
+      { label: "Sobre NUVEXA", href: "/empresa" },
       { label: "Contacto", href: "/contacto" },
     ],
   },

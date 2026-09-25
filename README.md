@@ -2,7 +2,7 @@
 
 Sitio oficial de NUVEXA: software empresarial, productos SaaS y desarrollo a medida.
 
-**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · shadcn/ui (Radix) · Lucide.
+**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · shadcn/ui (Radix) · Lucide · `cn()` con clsx + tailwind-merge (`lib/utils.ts`).
 
 ## Ejecutar
 
@@ -18,6 +18,7 @@ Copia `.env.example` a `.env.local` y completa:
 | Variable | Uso |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Dominio público (metadata, Open Graph, sitemap, robots). **Obligatoria en producción.** |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Correo público de contacto. Usar un correo del dominio (p. ej. `contacto@nuvexa.co`). |
 | `LEADS_WEBHOOK_URL` | Opcional. Destino del formulario de contacto (POST JSON). Sin ella, el formulario no envía y ofrece escribir por correo. |
 
 ## Estructura
