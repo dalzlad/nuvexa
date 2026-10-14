@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { CheckCircle2, Info, Mail } from "lucide-react";
 
 import { submitContact, type ContactFormState } from "@/app/contacto/actions";
@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { interestLabel, interestOptions } from "@/content/contact";
 import { site } from "@/content/site";
-import type { Lead, LeadField } from "@/lib/leads";
+import { HONEYPOT_FIELD, leadLimits, readLead, SUBMISSION_ID_FIELD, type Lead, type LeadField } from "@/lib/lead-form";
 import { cn } from "@/lib/utils";
 
 const initialState: ContactFormState = { status: "idle" };
@@ -35,6 +35,7 @@ function buildMailto(lead: Lead) {
 export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string }) {
   const [state, formAction, pending] = useActionState(submitContact, initialState);
   const [interest, setInterest] = useState(defaultInterest);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const values = "values" in state ? state.values : undefined;
   const errors = state.status === "invalid" ? state.fieldErrors : {};
@@ -53,6 +54,7 @@ export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string
     id: name,
     name,
     defaultValue: values?.[name],
+    maxLength: leadLimits[name],
     "aria-invalid": errors[name] ? true : undefined,
     "aria-describedby": errors[name] ? `${name}-error` : undefined,
   });
@@ -65,7 +67,17 @@ export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string
     );
 
   return (
-    <form action={formAction} className="rounded-xl border bg-card p-6 sm:p-8" aria-describedby="form-nota">
+    <form ref={formRef} action={formAction} className="relative rounded-xl border bg-card p-6 sm:p-8" aria-describedby="form-nota">
+      {/* Al reintentar se reenvía el mismo identificador para que el destino pueda descartar duplicados. */}
+      {"submissionId" in state && state.submissionId && (
+        <input type="hidden" name={SUBMISSION_ID_FIELD} value={state.submissionId} />
+      )}
+      {/* Campo trampa para bots: fuera de la vista y oculto para lectores de pantalla. */}
+      <div aria-hidden="true" className="absolute -left-[10000px] size-px overflow-hidden">
+        <label htmlFor={HONEYPOT_FIELD}>No completes este campo</label>
+        <input id={HONEYPOT_FIELD} name={HONEYPOT_FIELD} type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="name">Nombre</Label>
@@ -78,6 +90,7 @@ export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string
             Empresa <span className="font-normal text-muted-foreground">(opcional)</span>
           </Label>
           <Input {...fieldProps("company")} className={fieldClass} autoComplete="organization" />
+          {fieldError("company")}
         </div>
 
         <div className="grid gap-2">
@@ -129,20 +142,26 @@ export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string
         </div>
       </div>
 
-      {(state.status === "not-configured" || state.status === "failed") && values && (
+      {(state.status === "not-configured" || state.status === "failed" || state.status === "rate-limited") && values && (
         <div role="alert" className="mt-6 flex gap-3 rounded-lg border bg-muted/60 p-4">
           <Info className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
           <div className="text-sm leading-relaxed">
             <p className="font-medium text-foreground">
               {state.status === "not-configured"
                 ? "El envío automático de este formulario aún no está habilitado."
-                : "No pudimos enviar tu solicitud en este momento."}
+                : state.status === "rate-limited"
+                  ? "Recibimos varias solicitudes seguidas desde tu conexión. Espera unos minutos para intentarlo de nuevo."
+                  : "No pudimos enviar tu solicitud en este momento."}
             </p>
             <p className="mt-1 text-muted-foreground">
               Tu solicitud no se ha enviado. Puedes enviarnos la misma información por correo:
             </p>
             <a
               href={buildMailto(values)}
+              onClick={(event) => {
+                // Usa lo que hay ahora en el formulario, por si la persona lo editó tras el error.
+                if (formRef.current) event.currentTarget.href = buildMailto(readLead(new FormData(formRef.current)));
+              }}
               className="mt-3 inline-flex items-center gap-2 font-medium text-primary underline-offset-4 hover:underline"
             >
               <Mail className="size-4" aria-hidden="true" />

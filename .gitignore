@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# instrucciones para agentes de IA generadas por `next dev` (bloque genérico de Next, no del proyecto).
+# Si el equipo crea instrucciones propias para compartir, quita estas líneas y versiona los archivos.
+/AGENTS.md
+/CLAUDE.md

@@ -23,7 +23,7 @@ export function pageMetadata({ title, description, path }: PageMetadataInput): M
     openGraph: {
       type: "website",
       siteName: site.name,
-      locale: "es",
+      locale: site.locale,
       url: path,
       title: fullTitle,
       description,
