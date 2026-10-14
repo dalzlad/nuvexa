@@ -1,7 +1,7 @@
 /**
  * Configuración pública del sitio: dominio y correo de contacto.
  *
- * En producción, NEXT_PUBLIC_SITE_URL y NEXT_PUBLIC_CONTACT_EMAIL son obligatorias:
+ * En producción, NEXT_PUBLIC_SITE_URL y CONTACT_EMAIL son obligatorias:
  * content/site.ts llama a resolveSiteConfig() y el build falla con un mensaje claro
  * si faltan o no son válidas.
  * En desarrollo se usan valores locales que nunca llegan a una compilación de producción.
@@ -49,7 +49,7 @@ function siteUrlError(value: string): string | null {
 
 function contactEmailError(value: string): string | null {
   if (value.length > 254 || !EMAIL_PATTERN.test(value)) {
-    return "NEXT_PUBLIC_CONTACT_EMAIL no tiene un formato de correo válido.";
+    return "CONTACT_EMAIL no tiene un formato de correo válido.";
   }
   return null;
 }
@@ -66,7 +66,7 @@ export function siteConfigErrors({ url, email }: SiteConfigInput): string[] {
     if (error) errors.push(error);
   }
 
-  if (!contactEmail) errors.push("NEXT_PUBLIC_CONTACT_EMAIL no está definida.");
+  if (!contactEmail) errors.push("CONTACT_EMAIL no está definida.");
   else {
     const error = contactEmailError(contactEmail);
     if (error) errors.push(error);

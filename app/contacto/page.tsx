@@ -38,8 +38,8 @@ export default function ContactPage() {
       </div>
 
       <div>
-        <Suspense fallback={<ContactForm />}>
-          <ContactFormWithParams />
+        <Suspense fallback={<ContactForm contactEmail={site.email} />}>
+          <ContactFormWithParams contactEmail={site.email} />
         </Suspense>
       </div>
     </Container>

@@ -1,14 +1,17 @@
+import "server-only";
+
 import { resolveSiteConfig } from "@/lib/site-config";
 
 /**
- * Datos globales de la marca.
- * El dominio (NEXT_PUBLIC_SITE_URL) y el correo público (NEXT_PUBLIC_CONTACT_EMAIL)
+ * Datos globales de la marca. Solo servidor.
+ * El dominio (NEXT_PUBLIC_SITE_URL) y el correo de contacto (CONTACT_EMAIL)
  * son obligatorios en producción y se validan en lib/site-config.ts.
- * Las variables se leen de forma literal para que Next las incluya también en el cliente.
+ * CONTACT_EMAIL no existe en el navegador: los componentes del cliente que necesiten
+ * el correo lo reciben como prop desde un componente del servidor (p. ej. ContactForm).
  */
 const config = resolveSiteConfig({
   url: process.env.NEXT_PUBLIC_SITE_URL,
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+  email: process.env.CONTACT_EMAIL,
 });
 
 export const site = {

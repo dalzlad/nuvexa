@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { interestLabel, interestOptions } from "@/content/contact";
-import { site } from "@/content/site";
 import { HONEYPOT_FIELD, leadLimits, readLead, SUBMISSION_ID_FIELD, type Lead, type LeadField } from "@/lib/lead-form";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +17,7 @@ const initialState: ContactFormState = { status: "idle" };
 
 const fieldClass = "h-11 px-3 text-base sm:text-sm";
 
-function buildMailto(lead: Lead) {
+function buildMailto(contactEmail: string, lead: Lead) {
   const lines = [
     `Nombre: ${lead.name}`,
     lead.company ? `Empresa: ${lead.company}` : null,
@@ -29,10 +28,11 @@ function buildMailto(lead: Lead) {
     lead.message,
   ].filter((line) => line !== null);
   const subject = `Solicitud: ${interestLabel(lead.interest)}`;
-  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+  return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
 }
 
-export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string }) {
+/** `contactEmail` llega desde el servidor (site.email): CONTACT_EMAIL no existe en el navegador. */
+export function ContactForm({ contactEmail, defaultInterest = "" }: { contactEmail: string; defaultInterest?: string }) {
   const [state, formAction, pending] = useActionState(submitContact, initialState);
   const [interest, setInterest] = useState(defaultInterest);
   const formRef = useRef<HTMLFormElement>(null);
@@ -157,15 +157,17 @@ export function ContactForm({ defaultInterest = "" }: { defaultInterest?: string
               Tu solicitud no se ha enviado. Puedes enviarnos la misma información por correo:
             </p>
             <a
-              href={buildMailto(values)}
+              href={buildMailto(contactEmail, values)}
               onClick={(event) => {
                 // Usa lo que hay ahora en el formulario, por si la persona lo editó tras el error.
-                if (formRef.current) event.currentTarget.href = buildMailto(readLead(new FormData(formRef.current)));
+                if (formRef.current) {
+                  event.currentTarget.href = buildMailto(contactEmail, readLead(new FormData(formRef.current)));
+                }
               }}
               className="mt-3 inline-flex items-center gap-2 font-medium text-primary underline-offset-4 hover:underline"
             >
               <Mail className="size-4" aria-hidden="true" />
-              Enviar por correo a {site.email}
+              Enviar por correo a {contactEmail}
             </a>
           </div>
         </div>

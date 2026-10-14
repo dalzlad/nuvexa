@@ -20,13 +20,15 @@ Copia `.env.example` a `.env.local` y completa:
 | Variable | Uso |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Dominio público (metadata, canonical, Open Graph, sitemap, robots). **Obligatoria en producción**: `https://`, sin ruta y sin localhost. |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Correo público de contacto, del dominio. **Obligatoria en producción.** |
+| `CONTACT_EMAIL` | Correo de contacto que se muestra en el sitio, del dominio. **Obligatoria en producción.** Se lee en el servidor; los componentes del cliente lo reciben como prop. |
 | `RESEND_API_KEY` | Clave de Resend para enviar las solicitudes del formulario por correo. Solo del servidor. |
 | `LEADS_EMAIL_TO` | Correo(s) que reciben las solicitudes, separados por comas. Obligatoria si se usa Resend. |
 | `LEADS_EMAIL_FROM` | Opcional. Remitente en un dominio verificado en Resend. Vacía = `onboarding@resend.dev` (solo entrega al correo de la cuenta de Resend). |
 | `LEADS_WEBHOOK_URL` | Opcional. Alternativa a Resend: destino del formulario (POST JSON). Solo se usa si no hay `RESEND_API_KEY`. |
 
 Sin `RESEND_API_KEY` ni `LEADS_WEBHOOK_URL`, el formulario no envía nada y ofrece escribir por correo. Ninguna de estas variables lleva el prefijo `NEXT_PUBLIC_`.
+
+`content/site.ts` es solo del servidor (`server-only`): un componente del cliente que lo importe hace fallar el build. Si necesita datos de `site`, recíbelos como prop.
 
 `npm run build` falla con un mensaje claro si faltan las variables obligatorias o no son válidas (validación en `lib/site-config.ts`). En `npm run dev` se usan valores locales de desarrollo.
 
