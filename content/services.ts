@@ -110,3 +110,11 @@ export const services: Service[] = [
     showInFooter: false,
   },
 ];
+
+/** Etapas de trabajo de un proyecto (portada y /servicios). */
+export const workSteps = [
+  { title: "Diagnóstico", description: "Entendemos cómo funciona hoy el proceso y dónde se pierde tiempo." },
+  { title: "Diseño", description: "Definimos el alcance, la solución y las prioridades contigo." },
+  { title: "Construcción", description: "Desarrollamos por etapas, con entregas que puedes revisar." },
+  { title: "Acompañamiento", description: "Ponemos la solución en marcha y la ajustamos con el uso real." },
+];

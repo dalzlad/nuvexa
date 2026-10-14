@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, ChevronRight, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronRight, ShieldCheck } from "lucide-react";
 
+import { Backdrop } from "@/components/Backdrop";
+import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
 import { CTASection } from "@/components/CTASection";
 import { ProcessFlow } from "@/components/ProcessFlow";
-import { SectionTitle } from "@/components/SectionTitle";
+import { SectionTitle, headingStyles } from "@/components/SectionTitle";
 import { Button } from "@/components/ui/button";
 import {
   getProduct,
@@ -44,14 +46,14 @@ function ProductBreadcrumb({ name }: { name: string }) {
     <nav aria-label="Ruta de navegación">
       <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
         <li>
-          <Link href="/productos" className="hover:text-foreground">
+          <Link href="/productos" className="transition-colors hover:text-foreground">
             Productos
           </Link>
         </li>
         <li aria-hidden="true">
           <ChevronRight className="size-3.5" />
         </li>
-        <li aria-current="page" className="text-foreground">
+        <li aria-current="page" className="font-medium text-foreground">
           {name}
         </li>
       </ol>
@@ -64,26 +66,75 @@ function ComingSoonProduct({ product }: { product: Product }) {
   const Icon = product.icon;
 
   return (
-    <section aria-labelledby="producto-titulo">
-      <Container className="py-14 sm:py-20">
-        <ProductBreadcrumb name={product.name} />
-        <span
-          className="mt-10 flex size-10 items-center justify-center rounded-lg bg-muted text-muted-foreground"
-          aria-hidden="true"
-        >
-          <Icon className="size-5" />
-        </span>
-        <h1
-          id="producto-titulo"
-          className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
-        >
-          {product.name}
-        </h1>
-        <p className="mt-5 inline-flex rounded-full border px-3 py-1 text-sm font-medium text-muted-foreground">
-          Próximamente
-        </p>
-      </Container>
-    </section>
+      <section aria-labelledby="producto-titulo" className="relative isolate overflow-hidden">
+        <Backdrop />
+        <Container className="grid gap-14 py-12 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:py-28">
+          <div className="animate-fade-up">
+            <ProductBreadcrumb name={product.name} />
+            <div className="mt-10 flex items-center gap-3">
+              <span
+                className="flex size-12 items-center justify-center rounded-2xl border bg-card text-primary shadow-surface"
+                aria-hidden="true"
+              >
+                <Icon className="size-5" />
+              </span>
+              <Badge tone="progress" dot>
+                Próximamente
+              </Badge>
+            </div>
+            <h1
+              id="producto-titulo"
+              className={cn("mt-6 max-w-3xl font-semibold tracking-[-0.03em] text-foreground", headingStyles.h1)}
+            >
+              {product.name}
+            </h1>
+            {product.category && <p className="mt-4 text-lg font-medium text-primary">{product.category}</p>}
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {product.summary ??
+                "Este producto está en desarrollo. Publicaremos aquí su descripción cuando esté disponible."}
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="xl">
+                <Link href={`/contacto?motivo=informacion&producto=${product.slug}`}>
+                  {productActions.info}
+                  <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild size="xl" variant="outline">
+                <Link href="/productos">
+                  <ArrowLeft data-icon="inline-start" aria-hidden="true" />
+                  Ver otros productos
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Plano en construcción: decorativo, sin pantallas ni funciones del producto. */}
+          <div aria-hidden="true" className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative isolate overflow-hidden rounded-3xl border border-dashed border-primary/30 bg-card/70 p-6 shadow-surface backdrop-blur sm:p-8">
+              <div className="absolute inset-0 -z-10 bg-grid [--grid-color:oklch(0.49_0.2_272/0.08)] [background-size:24px_24px]" />
+              <div className="flex items-center gap-3">
+                <span className="size-9 rounded-xl bg-primary/15" />
+                <span className="h-2.5 w-28 rounded-full bg-foreground/10" />
+              </div>
+              <div className="mt-8 grid grid-cols-3 gap-3">
+                <span className="col-span-2 h-24 rounded-2xl border border-dashed border-primary/25 bg-brand-soft/50" />
+                <span className="h-24 rounded-2xl border border-dashed" />
+                <span className="h-16 rounded-2xl border border-dashed" />
+                <span className="col-span-2 h-16 rounded-2xl border border-dashed" />
+              </div>
+              <div className="mt-6 space-y-2.5">
+                <span className="block h-2 w-full rounded-full bg-foreground/8" />
+                <span className="block h-2 w-4/5 rounded-full bg-foreground/8" />
+                <span className="block h-2 w-3/5 rounded-full bg-foreground/8" />
+              </div>
+              <p className="mt-8 font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
+                En desarrollo
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
   );
 }
 
@@ -102,34 +153,31 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
   return (
     <>
       {/* Encabezado del producto */}
-      <section aria-labelledby="producto-titulo" className="border-b">
-        <Container className="py-14 sm:py-20">
+      <section aria-labelledby="producto-titulo" className="relative isolate overflow-hidden border-b">
+        <Backdrop />
+        <Container className="py-12 sm:py-20 lg:py-24">
           <ProductBreadcrumb name={product.name} />
 
-          <div className="mt-10 flex items-center gap-3">
+          <div className="mt-10 flex flex-wrap items-center gap-3">
             <span
-              className="flex size-10 items-center justify-center rounded-lg bg-brand-soft text-brand-soft-foreground"
+              className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-surface"
               aria-hidden="true"
             >
               <Icon className="size-5" />
             </span>
-            <span className="text-sm font-medium text-foreground">{product.name}</span>
-            <span className="rounded-full border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-              {product.category}
-            </span>
+            <span className="text-sm font-semibold text-foreground">{product.name}</span>
+            <Badge tone="brand">{product.category}</Badge>
           </div>
 
           <h1
             id="producto-titulo"
-            className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
+            className={cn("mt-6 max-w-3xl font-semibold tracking-[-0.03em] text-foreground", headingStyles.h1)}
           >
             {detail.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {detail.intro}
-          </p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{detail.intro}</p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="xl">
               <Link href={demoHref}>
                 {productActions.demo}
@@ -144,7 +192,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
       </section>
 
       {/* Problema */}
-      <section aria-labelledby="problema-titulo" className="py-20 sm:py-24">
+      <section aria-labelledby="problema-titulo" className="py-20 sm:py-28">
         <Container>
           <SectionTitle
             id="problema-titulo"
@@ -154,14 +202,17 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
           />
           <ul
             className={cn(
-              "mt-10 grid gap-4 sm:grid-cols-2",
+              "mt-12 grid gap-4 sm:grid-cols-2",
               detail.problem.points.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-4",
             )}
           >
-            {detail.problem.points.map((point) => (
-              <li key={point.title} className="border-l-2 border-primary/30 py-1 pl-4">
-                <p className="font-medium text-foreground">{point.title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{point.description}</p>
+            {detail.problem.points.map((point, index) => (
+              <li key={point.title} className="rounded-2xl border bg-card p-6">
+                <span className="font-mono text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-4 font-semibold tracking-tight text-foreground">{point.title}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{point.description}</p>
               </li>
             ))}
           </ul>
@@ -169,7 +220,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
       </section>
 
       {/* Flujo */}
-      <section id="como-funciona" aria-labelledby="flujo-titulo" className="border-y bg-muted/50 py-20 sm:py-24">
+      <section id="como-funciona" aria-labelledby="flujo-titulo" className="border-y bg-muted/60 py-20 sm:py-28">
         <Container>
           <SectionTitle
             id="flujo-titulo"
@@ -177,15 +228,12 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
             title={detail.flow.title}
             description={detail.flow.description}
           />
-          <ProcessFlow
-            steps={detail.flow.steps}
-            layout="horizontal"
-            label={`Flujo de ${product.name}`}
-            className="mt-12"
-          />
+          <div className="mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10">
+            <ProcessFlow steps={detail.flow.steps} layout="horizontal" label={`Flujo de ${product.name}`} />
+          </div>
 
           {detail.highlight && (
-            <div className="mt-14 flex gap-4 rounded-xl border bg-background p-5 sm:p-6">
+            <div className="mt-6 flex gap-4 rounded-2xl border border-primary/20 bg-brand-soft/60 p-5 sm:p-6">
               <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
               <p className="leading-relaxed text-foreground">{detail.highlight}</p>
             </div>
@@ -195,7 +243,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
 
       {/* Canales y capacidades */}
       {(detail.tags || detail.features) && (
-        <section aria-labelledby="incluye-titulo" className="py-20 sm:py-24">
+        <section aria-labelledby="incluye-titulo" className="py-20 sm:py-28">
           <Container>
             <SectionTitle
               id="incluye-titulo"
@@ -209,7 +257,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
                 <h3 className="text-sm font-medium text-muted-foreground">{detail.tags.title}</h3>
                 <ul className="mt-3 flex flex-wrap gap-2">
                   {detail.tags.items.map((tag) => (
-                    <li key={tag} className="rounded-full border bg-background px-3 py-1.5 text-sm text-foreground">
+                    <li key={tag} className="rounded-full border bg-card px-3.5 py-1.5 text-sm text-foreground shadow-xs">
                       {tag}
                     </li>
                   ))}
@@ -218,13 +266,13 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
             )}
 
             {detail.features && (
-              <ul className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border sm:grid-cols-2 lg:grid-cols-3">
                 {detail.features.items.map((feature) => (
-                  <li key={feature.title} className="flex gap-3">
+                  <li key={feature.title} className="flex gap-3 bg-card p-6 sm:p-7">
                     <Check className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
                     <div>
-                      <h3 className="font-medium text-foreground">{feature.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                      <h3 className="font-semibold tracking-tight text-foreground">{feature.title}</h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
                     </div>
                   </li>
                 ))}
@@ -236,7 +284,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
 
       {/* Resultado esperado */}
       {detail.outcomes && (
-        <section aria-labelledby="resultado-titulo" className="border-t py-20 sm:py-24">
+        <section aria-labelledby="resultado-titulo" className="border-t py-20 sm:py-28">
           <Container>
             <SectionTitle
               id="resultado-titulo"
@@ -244,11 +292,11 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
               title={detail.outcomes.title}
               description={detail.outcomes.description}
             />
-            <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {detail.outcomes.items.map((item) => (
-                <li key={item.title} className="border-l-2 border-primary/30 py-1 pl-4">
-                  <h3 className="font-medium text-foreground">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <li key={item.title} className="border-l-2 border-primary py-1 pl-5">
+                  <h3 className="font-semibold tracking-tight text-foreground">{item.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                 </li>
               ))}
             </ul>

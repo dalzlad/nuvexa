@@ -18,12 +18,16 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   return (
     <Link
       href="/"
       aria-label="NUVEXA, ir al inicio"
-      className={cn("inline-flex items-center gap-2.5 font-semibold tracking-[0.14em] text-foreground", className)}
+      className={cn(
+        "inline-flex items-center gap-2.5 font-semibold tracking-[0.14em]",
+        tone === "dark" ? "text-ink-foreground" : "text-foreground",
+        className,
+      )}
     >
       <LogoMark />
       <span className="text-[15px]">NUVEXA</span>

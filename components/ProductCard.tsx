@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, type LucideIcon } from "lucide-react";
 
+import { Badge } from "@/components/Badge";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -10,7 +11,7 @@ interface ProductCardProps {
   href: string;
   ctaLabel: string;
   icon: LucideIcon;
-  /** "product": producto disponible · "custom": desarrollo a medida · "upcoming": próximamente */
+  /** "product": producto disponible · "custom": desarrollo a medida · "upcoming": en desarrollo */
   variant?: "product" | "custom" | "upcoming";
   headingLevel?: "h2" | "h3";
   className?: string;
@@ -27,42 +28,46 @@ export function ProductCard({
   headingLevel: Heading = "h3",
   className,
 }: ProductCardProps) {
-  // Un producto "Próximamente" sin categoría muestra su estado en la etiqueta.
-  const badge = category ?? (variant === "upcoming" ? "Próximamente" : undefined);
+  const upcoming = variant === "upcoming";
+  const custom = variant === "custom";
 
   return (
     <article
       className={cn(
-        "group relative flex flex-col rounded-xl border p-6 transition-colors sm:p-7",
-        variant === "product" && "bg-card hover:border-primary/40",
-        variant === "custom" && "border-dashed bg-muted/50 hover:border-primary/40",
-        variant === "upcoming" && "bg-muted/40",
+        "group relative isolate flex flex-col overflow-hidden rounded-2xl border p-6 transition-[border-color,box-shadow] duration-300 sm:p-7",
+        custom ? "border-primary/20 bg-brand-soft/60" : "bg-card",
+        "hover:border-primary/35 hover:shadow-surface",
         className,
       )}
     >
-      <div className="flex items-center justify-between gap-3">
+      {custom && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-dots [--grid-color:oklch(0.49_0.2_272/0.15)] mask-[linear-gradient(to_bottom_left,black,transparent_60%)]"
+        />
+      )}
+
+      <div className="flex items-start justify-between gap-3">
         <span
           className={cn(
-            "flex size-10 items-center justify-center rounded-lg",
-            variant === "upcoming" ? "bg-background text-muted-foreground" : "bg-brand-soft text-brand-soft-foreground",
+            "flex size-11 shrink-0 items-center justify-center rounded-xl",
+            upcoming ? "border bg-muted text-muted-foreground" : "bg-primary text-primary-foreground shadow-surface",
           )}
           aria-hidden="true"
         >
           <Icon className="size-5" />
         </span>
-        {badge && (
-          <span
-            className={cn(
-              "rounded-full border px-2.5 py-0.5 text-xs font-medium",
-              variant === "upcoming" ? "bg-background text-muted-foreground" : "text-foreground",
-            )}
-          >
-            {badge}
-          </span>
-        )}
+        <div className="flex flex-wrap justify-end gap-1.5">
+          {upcoming && (
+            <Badge tone="progress" dot>
+              Próximamente
+            </Badge>
+          )}
+          {category && <Badge tone={upcoming ? "neutral" : "brand"}>{category}</Badge>}
+        </div>
       </div>
 
-      <Heading className="mt-6 text-lg font-semibold tracking-tight text-foreground">{title}</Heading>
+      <Heading className="mt-7 text-lg font-semibold tracking-tight text-foreground sm:text-xl">{title}</Heading>
       {description ? (
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
       ) : (
@@ -71,10 +76,7 @@ export function ProductCard({
 
       <Link
         href={href}
-        className={cn(
-          "mt-6 inline-flex items-center gap-1.5 text-sm font-medium after:absolute after:inset-0 after:rounded-xl",
-          variant === "upcoming" ? "text-foreground" : "text-primary",
-        )}
+        className="mt-7 inline-flex items-center gap-1.5 border-t pt-5 text-sm font-medium text-primary after:absolute after:inset-0 after:rounded-2xl"
       >
         {ctaLabel}
         <ArrowRight

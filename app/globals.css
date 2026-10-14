@@ -9,6 +9,12 @@
   --color-foreground: var(--foreground);
   --color-brand-soft: var(--brand-soft);
   --color-brand-soft-foreground: var(--brand-soft-foreground);
+  --color-brand-sky: var(--brand-sky);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-border: var(--ink-border);
+  --color-success: var(--success);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -50,28 +56,40 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Marca NUVEXA: base neutra con un acento índigo. Tema claro por defecto. */
+/*
+ * Marca NUVEXA
+ * Blanco cálido de base, azul NUVEXA como color de acción y un azul tinta casi negro
+ * para títulos y superficies oscuras. Tema claro por defecto.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.2 0.02 265);
+  --background: oklch(0.992 0.003 85);
+  --foreground: oklch(0.2 0.035 268);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 265);
+  --card-foreground: oklch(0.2 0.035 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 265);
+  --popover-foreground: oklch(0.2 0.035 268);
   --primary: oklch(0.49 0.2 272);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.967 0.005 265);
-  --secondary-foreground: oklch(0.25 0.02 265);
-  --muted: oklch(0.975 0.004 265);
-  --muted-foreground: oklch(0.5 0.02 265);
-  --accent: oklch(0.96 0.006 265);
-  --accent-foreground: oklch(0.25 0.02 265);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.006 265);
-  --input: oklch(0.9 0.008 265);
+  --secondary: oklch(0.966 0.005 270);
+  --secondary-foreground: oklch(0.25 0.03 268);
+  --muted: oklch(0.972 0.004 85);
+  --muted-foreground: oklch(0.48 0.022 268);
+  --accent: oklch(0.96 0.008 272);
+  --accent-foreground: oklch(0.25 0.03 268);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.915 0.007 270);
+  --input: oklch(0.87 0.01 270);
   --ring: oklch(0.49 0.2 272);
-  --brand-soft: oklch(0.96 0.025 272);
+  --brand-soft: oklch(0.955 0.03 272);
   --brand-soft-foreground: oklch(0.42 0.18 272);
+  /* Segundo tono para degradados sutiles junto al azul NUVEXA. */
+  --brand-sky: oklch(0.66 0.14 240);
+  /* Superficies oscuras: sección de problemas, llamadas a la acción y pie de página. */
+  --ink: oklch(0.18 0.035 270);
+  --ink-foreground: oklch(0.97 0.005 270);
+  --ink-muted: oklch(0.76 0.02 270);
+  --ink-border: oklch(1 0 0 / 0.1);
+  --success: oklch(0.52 0.13 155);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -124,6 +142,111 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Movimiento: breve y discreto. Todo se desactiva con prefers-reduced-motion. */
+@theme {
+  --animate-flow: flow 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-pulse-ring: pulse-ring 3.2s ease-out infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-travel-y: travel-y 2.4s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes flow {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.9);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes travel-y {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(var(--travel, 2.5rem));
+      opacity: 0;
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Etiqueta superior de sección: mono, mayúsculas y azul NUVEXA. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* Retícula técnica de fondo. El color se ajusta con --grid-color. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-color, var(--border)) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color, var(--border)) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(var(--grid-color, var(--border)) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(100deg, var(--primary) 15%, var(--brand-sky) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Sombras de superficie: suaves, con un leve tinte azul. */
+@utility shadow-surface {
+  box-shadow:
+    0 1px 2px oklch(0.2 0.035 268 / 0.05),
+    0 8px 24px -12px oklch(0.2 0.035 268 / 0.14);
+}
+
+@utility shadow-elevated {
+  box-shadow:
+    0 1px 2px oklch(0.2 0.035 268 / 0.06),
+    0 28px 56px -24px oklch(0.3 0.12 272 / 0.32);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -136,7 +259,11 @@
   }
   html {
     @apply font-sans;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: oklch(0.49 0.2 272 / 0.18);
   }
   a:focus-visible,
   summary:focus-visible {
@@ -146,5 +273,21 @@
   h2,
   h3 {
     text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

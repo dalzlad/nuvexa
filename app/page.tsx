@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ApproachSection } from "@/components/ApproachSection";
 import { CTASection } from "@/components/CTASection";
 import { MainCover } from "@/components/MainCover";
 import { ProblemsSection } from "@/components/ProblemsSection";
@@ -14,10 +15,12 @@ export default function HomePage() {
   return (
     <>
       <MainCover />
-      <ProductsSection />
-      <ProblemsSection />
       <ServicesSection />
+      <ProblemsSection />
+      <ApproachSection />
+      <ProductsSection />
       <CTASection
+        eyebrow="Contacto"
         title="¿Tienes un proceso que quieras simplificar?"
         description="Cuéntanos cómo funciona hoy y revisamos juntos la mejor forma de resolverlo."
         primary={{ label: "Hablemos de tu proyecto", href: "/contacto?motivo=desarrollo-a-medida" }}

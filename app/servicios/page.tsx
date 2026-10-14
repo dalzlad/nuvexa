@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowDownRight } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { CTASection } from "@/components/CTASection";
+import { PageHeader } from "@/components/PageHeader";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceCard } from "@/components/ServiceCard";
-import { services } from "@/content/services";
+import { services, workSteps } from "@/content/services";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -15,34 +18,66 @@ export const metadata: Metadata = pageMetadata({
   path: "/servicios",
 });
 
-const workSteps = [
-  { title: "Diagnóstico", description: "Entendemos cómo funciona hoy el proceso y dónde se pierde tiempo." },
-  { title: "Diseño", description: "Definimos el alcance, la solución y las prioridades contigo." },
-  { title: "Construcción", description: "Desarrollamos por etapas, con entregas que puedes revisar." },
-  { title: "Acompañamiento", description: "Ponemos la solución en marcha y la ajustamos con el uso real." },
-];
+function ServicesIndex() {
+  return (
+    <nav aria-label="Servicios en esta página" className="rounded-3xl border bg-card/90 p-2 shadow-surface backdrop-blur">
+      <p className="px-4 pt-3 pb-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
+        En esta página
+      </p>
+      <ul>
+        {services.map((service, index) => {
+          const Icon = service.icon;
+          return (
+            <li key={service.id}>
+              <Link
+                href={`#${service.id}`}
+                className="group flex items-center gap-4 rounded-2xl px-4 py-3 transition-colors hover:bg-muted"
+              >
+                <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <Icon className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                <span className="flex-1 text-[0.9375rem] font-medium text-foreground">{service.title}</span>
+                <ArrowDownRight
+                  className="size-4 text-muted-foreground transition-transform group-hover:translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
 
 export default function ServicesPage() {
   return (
     <>
-      <Container className="pt-16 sm:pt-24">
-        <SectionTitle
-          as="h1"
-          eyebrow="Servicios"
-          title="Desarrollo, automatización e integraciones para empresas"
-          description="Construimos software a partir de cómo opera tu empresa: aplicaciones, flujos automáticos, conexiones entre sistemas e inteligencia artificial aplicada a procesos concretos."
-        />
-      </Container>
+      <PageHeader
+        id="servicios-titulo"
+        eyebrow="Servicios"
+        title="Desarrollo, automatización e integraciones para empresas"
+        description="Construimos software a partir de cómo opera tu empresa: aplicaciones, flujos automáticos, conexiones entre sistemas e inteligencia artificial aplicada a procesos concretos."
+        aside={<ServicesIndex />}
+      />
 
-      <section aria-label="Servicios" className="pt-8 pb-12 sm:pb-16">
-        <Container className="divide-y">
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} variant="detailed" headingLevel="h2" />
+      <section aria-label="Servicios" className="py-16 sm:py-24">
+        <Container className="grid gap-20 sm:gap-28">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              index={index + 1}
+              variant="detailed"
+              headingLevel="h2"
+              reverse={index % 2 === 1}
+            />
           ))}
         </Container>
       </section>
 
-      <section aria-labelledby="como-trabajamos-titulo" className="border-y bg-muted/50 py-20 sm:py-24">
+      <section aria-labelledby="como-trabajamos-titulo" className="border-y bg-muted/60 py-20 sm:py-28">
         <Container>
           <SectionTitle
             id="como-trabajamos-titulo"
@@ -50,7 +85,9 @@ export default function ServicesPage() {
             title="Primero el proceso, después el código"
             description="Cada proyecto parte de entender la operación de tu empresa."
           />
-          <ProcessFlow steps={workSteps} layout="horizontal" label="Etapas de trabajo" className="mt-12" />
+          <div className="mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10 lg:mt-14">
+            <ProcessFlow steps={workSteps} layout="horizontal" label="Etapas de trabajo" />
+          </div>
         </Container>
       </section>
 

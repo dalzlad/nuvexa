@@ -14,7 +14,7 @@ export function NavLinks({ links }: { links: NavLink[] }) {
   const pathname = usePathname();
 
   return (
-    <ul className="flex items-center gap-1">
+    <ul className="flex items-center gap-1 rounded-full border border-border/70 bg-card/60 p-1">
       {links.map((link) => {
         const active = isActivePath(pathname, link.href);
         return (
@@ -23,8 +23,10 @@ export function NavLinks({ links }: { links: NavLink[] }) {
               href={link.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-foreground",
-                active ? "text-foreground" : "text-muted-foreground",
+                "block rounded-full px-4 py-1.5 text-sm font-medium transition-colors focus-visible:rounded-full",
+                active
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               {link.label}

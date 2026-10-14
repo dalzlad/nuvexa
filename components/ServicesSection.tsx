@@ -5,8 +5,9 @@ import { Container } from "@/components/Container";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceCard } from "@/components/ServiceCard";
 import { services } from "@/content/services";
+import { cn } from "@/lib/utils";
 
-/** Resumen de servicios para la portada. */
+/** Capacidades en la portada: composición en mosaico, con el primer servicio destacado. */
 export function ServicesSection() {
   return (
     <section aria-labelledby="servicios-titulo" className="py-20 sm:py-28">
@@ -14,22 +15,28 @@ export function ServicesSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle
             id="servicios-titulo"
-            eyebrow="Servicios"
-            title="También construimos software a la medida"
-            description="Cuando un proceso no encaja en un producto, lo desarrollamos, lo automatizamos o lo integramos con tus sistemas."
+            eyebrow="Capacidades"
+            title="Software construido a partir de cómo opera tu empresa"
+            description="Desarrollamos, automatizamos e integramos los procesos que hoy dependen de trabajo manual."
           />
           <Link
             href="/servicios"
-            className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-primary"
+            className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-primary"
           >
             Ver todos los servicios
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-6 lg:gap-5">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              index={index + 1}
+              size={index === 0 ? "wide" : "default"}
+              className={cn(index === 0 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-2")}
+            />
           ))}
         </div>
       </Container>

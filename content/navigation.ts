@@ -22,10 +22,13 @@ export const contactLink: NavLink = { label: "Contactar", href: "/contacto" };
 export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: "Productos",
-    links: availableProducts.map((p) => ({
-      label: p.name,
-      href: `/productos/${p.slug}`,
-    })),
+    links: [
+      { label: "Catálogo", href: "/productos" },
+      ...availableProducts.map((p) => ({
+        label: p.name,
+        href: `/productos/${p.slug}`,
+      })),
+    ],
   },
   {
     title: "Servicios",

@@ -19,7 +19,7 @@ export const site = {
   tagline: "Software empresarial que simplifica la operación de tu negocio.",
   title: "NUVEXA — Software empresarial",
   description:
-    "Productos SaaS, automatización, integraciones e inteligencia artificial para simplificar los procesos de tu empresa.",
+    "Desarrollo de software, automatización de procesos, integración de sistemas e inteligencia artificial aplicada para simplificar la operación de tu empresa.",
   url: config.url,
   email: config.email,
   /** Idioma del contenido (atributo lang). */

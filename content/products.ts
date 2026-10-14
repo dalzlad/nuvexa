@@ -4,12 +4,16 @@
  * Para agregar un producto nuevo basta con añadir una entrada aquí:
  * - status "available" + detail  → genera /productos/<slug> automáticamente.
  * - status "coming-soon"         → aparece en "Próximamente", sin página de detalle.
+ * - slug en product-visibility.ts → se excluye del sitio público (catálogo, navegación, sitemap,
+ *                                  formulario y rutas) sin borrar su contenido.
  *
  * Regla de contenido: describir solo funcionalidades que existan.
  * "category" es el área de negocio que resuelve el producto, no su estado.
  */
 
 import { FileText, HardHat, PackageCheck, Wrench, type LucideIcon } from "lucide-react";
+
+import { hiddenProductSlugs } from "./product-visibility";
 
 export type ProductStatus = "available" | "coming-soon";
 
@@ -78,6 +82,7 @@ type AvailableProduct = Product & {
 
 export const products: Product[] = [
   {
+    // Oculto mientras su slug esté en content/product-visibility.ts.
     slug: "pedidoflow",
     icon: PackageCheck,
     name: "PedidoFlow B2B",
@@ -218,12 +223,15 @@ export const products: Product[] = [
   },
 ];
 
-export const availableProducts = products.filter(
+/** Productos visibles en el sitio público. */
+const publicProducts = products.filter((p) => !hiddenProductSlugs.includes(p.slug));
+
+export const availableProducts = publicProducts.filter(
   (p): p is AvailableProduct =>
     p.status === "available" && !!p.detail && !!p.seo && !!p.category && !!p.summary,
 );
 
-export const upcomingProducts = products.filter((p) => p.status === "coming-soon");
+export const upcomingProducts = publicProducts.filter((p) => p.status === "coming-soon");
 
 export function getProduct(slug: string) {
   return availableProducts.find((p) => p.slug === slug);
@@ -234,7 +242,7 @@ function hasPage(product: Product) {
 }
 
 /** Productos con página en /productos/<slug>: disponibles + "Próximamente" con comingSoonPage. */
-export const productsWithPage = products.filter(hasPage);
+export const productsWithPage = publicProducts.filter(hasPage);
 
 export function getProductWithPage(slug: string) {
   return productsWithPage.find((p) => p.slug === slug);

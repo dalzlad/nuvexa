@@ -18,9 +18,9 @@ export const companyFocus = {
     {
       title: "Productos SaaS",
       description:
-        "Software listo para usar en procesos que comparten muchas empresas, como la gestión de pedidos.",
+        "Productos propios en desarrollo para procesos operativos que comparten muchas empresas. Puedes conocer su estado en el catálogo.",
       href: "/productos",
-      linkLabel: "Ver productos",
+      linkLabel: "Ver estado de los productos",
     },
     {
       title: "Soluciones a medida",
