@@ -77,16 +77,33 @@ export function ServiceCard({
             ))}
           </ul>
 
-          <Link
-            href={`/contacto?motivo=${service.id}`}
-            className="group mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary"
-          >
-            Conversemos sobre {service.title.toLowerCase()}
-            <ArrowRight
-              className="size-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link
+              href={`/contacto?motivo=${service.id}`}
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+            >
+              Conversemos sobre {service.title.toLowerCase()}
+              <ArrowRight
+                className="size-4 transition-transform group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
+            {service.demo && (
+              <a
+                href={service.demo.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {service.demo.label}
+                <ArrowUpRight
+                  className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">(se abre en una pestaña nueva)</span>
+              </a>
+            )}
+          </div>
         </div>
 
         <div

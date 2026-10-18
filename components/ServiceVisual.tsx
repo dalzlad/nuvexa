@@ -36,6 +36,34 @@ function Software() {
   );
 }
 
+function Store() {
+  return (
+    <>
+      <rect x="20" y="14" width="200" height="132" rx="10" className={box} />
+      <path d="M20 34h200" className={line} />
+      <circle cx="32" cy="24" r="3" className={ink} />
+      <circle cx="42" cy="24" r="3" className={ink} />
+      <circle cx="52" cy="24" r="3" className={ink} />
+      {[30, 80, 130].map((x, i) => (
+        <g key={x}>
+          <rect x={x} y="44" width="42" height="84" rx="6" className={i === 1 ? brandSoft : soft} />
+          <rect x={x + 6} y="50" width="30" height="34" rx="4" className={i === 1 ? "fill-primary/20" : "fill-foreground/10"} />
+          <rect x={x + 6} y="92" width="24" height="4" rx="2" className={ink} />
+          <rect x={x + 6} y="102" width="14" height="4" rx="2" className={i === 1 ? brand : ink} />
+          <rect x={x + 6} y="112" width="30" height="9" rx="4.5" className={i === 1 ? brand : "fill-foreground/15"} />
+        </g>
+      ))}
+      <rect x="180" y="44" width="32" height="84" rx="6" className={box} />
+      <circle cx="196" cy="62" r="10" className="fill-primary" />
+      <path d="M191 59h2l2 6h6l1.5-4.5H194" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="stroke-white" />
+      <rect x="186" y="82" width="20" height="4" rx="2" className={ink} />
+      <rect x="186" y="92" width="16" height="4" rx="2" className={ink} />
+      <path d="M186 106h20" className={line} />
+      <rect x="186" y="112" width="20" height="8" rx="4" className={brand} />
+    </>
+  );
+}
+
 function Automation() {
   return (
     <>
@@ -135,6 +163,7 @@ function Custom() {
 
 const visuals: Record<string, () => React.JSX.Element> = {
   "desarrollo-de-software": Software,
+  "tiendas-virtuales": Store,
   automatizacion: Automation,
   integraciones: Integrations,
   "inteligencia-artificial": Intelligence,

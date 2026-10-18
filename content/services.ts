@@ -1,4 +1,4 @@
-import { Blocks, BrainCircuit, Code2, Plug, Workflow, type LucideIcon } from "lucide-react";
+import { Blocks, BrainCircuit, Code2, Plug, Store, Workflow, type LucideIcon } from "lucide-react";
 
 export interface Service {
   /** Se usa como ancla: /servicios#<id> */
@@ -16,6 +16,8 @@ export interface Service {
   examples: string[];
   icon: LucideIcon;
   showInFooter: boolean;
+  /** Enlace opcional a una demostración pública (se abre en una pestaña nueva). */
+  demo?: { label: string; href: string };
 }
 
 export const services: Service[] = [
@@ -36,6 +38,28 @@ export const services: Service[] = [
     ],
     icon: Code2,
     showInFooter: true,
+  },
+  {
+    id: "tiendas-virtuales",
+    title: "Tiendas virtuales",
+    shortTitle: "Tiendas virtuales",
+    description: "Tiendas virtuales para vender tus productos con catálogo, carrito y pedidos.",
+    problem:
+      "Vender por chat, redes sociales o catálogos en PDF obliga a responder precios uno por uno, confirmar disponibilidad a mano y anotar cada pedido por separado.",
+    solution:
+      "Construimos tiendas virtuales a la medida de tu negocio, donde tus clientes consultan el catálogo, arman su pedido y lo envían sin depender de que alguien responda cada mensaje.",
+    examples: [
+      "Catálogo de productos con categorías",
+      "Carrito de compras y pedidos en línea",
+      "Administración de productos y precios",
+      "Conexión con tu inventario o ERP",
+    ],
+    icon: Store,
+    showInFooter: true,
+    demo: {
+      label: "Ver tienda de demostración",
+      href: "https://store-nm6txx97c-diegos-projects-0732de75.vercel.app/",
+    },
   },
   {
     id: "automatizacion",
@@ -61,11 +85,11 @@ export const services: Service[] = [
     shortTitle: "Integraciones",
     description: "Sistemas conectados para que la información no se copie a mano.",
     problem:
-      "Cuando el ERP, el sistema contable, la tienda en línea o el CRM no están conectados, alguien tiene que pasar la información de uno a otro manualmente.",
+      "Cuando el ERP, el sistema contable, la tienda virtual o el CRM no están conectados, alguien tiene que pasar la información de uno a otro manualmente.",
     solution:
       "Conectamos tus sistemas mediante APIs y servicios de integración para que la información fluya de forma automática y se mantenga consistente en todos ellos.",
     examples: [
-      "Pedidos de tienda en línea hacia el ERP",
+      "Pedidos de tienda virtual hacia el ERP",
       "Clientes y facturas hacia el sistema contable",
       "APIs para consulta de terceros",
       "Conexión con servicios externos",

@@ -7,7 +7,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { services } from "@/content/services";
 import { cn } from "@/lib/utils";
 
-/** Capacidades en la portada: composición en mosaico, con el primer servicio destacado. */
+/** Capacidades en la portada: composición en mosaico, con el primer y el último servicio a doble ancho. */
 export function ServicesSection() {
   return (
     <section aria-labelledby="servicios-titulo" className="py-20 sm:py-28">
@@ -29,15 +29,20 @@ export function ServicesSection() {
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-6 lg:gap-5">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              index={index + 1}
-              size={index === 0 ? "wide" : "default"}
-              className={cn(index === 0 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-2")}
-            />
-          ))}
+          {services.map((service, index) => {
+            const last = index === services.length - 1;
+            return (
+              <ServiceCard
+                key={service.id}
+                service={service}
+                index={index + 1}
+                size={index === 0 || last ? "wide" : "default"}
+                className={cn(
+                  index === 0 ? "md:col-span-2 lg:col-span-4" : last ? "md:col-span-2 lg:col-span-6" : "lg:col-span-2",
+                )}
+              />
+            );
+          })}
         </div>
       </Container>
     </section>

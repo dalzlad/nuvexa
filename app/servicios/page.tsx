@@ -14,7 +14,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   title: "Servicios",
   description:
-    "Desarrollo de software, automatización, integraciones, inteligencia artificial y desarrollo a medida para empresas.",
+    "Desarrollo de software, tiendas virtuales, automatización, integraciones, inteligencia artificial y desarrollo a medida para empresas.",
   path: "/servicios",
 });
 
@@ -58,7 +58,7 @@ export default function ServicesPage() {
         id="servicios-titulo"
         eyebrow="Servicios"
         title="Desarrollo, automatización e integraciones para empresas"
-        description="Construimos software a partir de cómo opera tu empresa: aplicaciones, flujos automáticos, conexiones entre sistemas e inteligencia artificial aplicada a procesos concretos."
+        description="Construimos software a partir de cómo opera tu empresa: aplicaciones, tiendas virtuales, flujos automáticos, conexiones entre sistemas e inteligencia artificial aplicada a procesos concretos."
         aside={<ServicesIndex />}
       />
 
