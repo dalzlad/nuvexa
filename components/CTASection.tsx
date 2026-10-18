@@ -19,9 +19,9 @@ interface CTASectionProps {
 
 export function CTASection({ title, description, primary, secondary, eyebrow = "Siguiente paso" }: CTASectionProps) {
   return (
-    <section aria-labelledby="cta-titulo" className="py-16 sm:py-24">
+    <section aria-labelledby="cta-titulo" className="py-16 sm:py-24" data-hide-mobile-cta>
       <Container>
-        <div className="relative isolate overflow-hidden rounded-3xl bg-ink px-6 py-12 text-ink-foreground shadow-elevated sm:px-12 sm:py-16 lg:px-16">
+        <div className="reveal relative isolate overflow-hidden rounded-3xl bg-ink px-6 py-12 text-ink-foreground shadow-elevated sm:px-12 sm:py-16 lg:px-16">
           {/* Retícula y halo de luz */}
           <div
             aria-hidden="true"

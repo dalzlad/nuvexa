@@ -55,7 +55,7 @@ function Store() {
       ))}
       <rect x="180" y="44" width="32" height="84" rx="6" className={box} />
       <circle cx="196" cy="62" r="10" className="fill-primary" />
-      <path d="M191 59h2l2 6h6l1.5-4.5H194" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="stroke-white" />
+      <path d="M191 59h2l2 6h6l1.5-4.5H194" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="stroke-primary-foreground" />
       <rect x="186" y="82" width="20" height="4" rx="2" className={ink} />
       <rect x="186" y="92" width="16" height="4" rx="2" className={ink} />
       <path d="M186 106h20" className={line} />
@@ -77,7 +77,7 @@ function Automation() {
       <rect x="182" y="68" width="40" height="24" rx="6" className="fill-primary stroke-primary" />
       <rect x="182" y="118" width="40" height="24" rx="6" className={box} />
       <rect x="190" y="28" width="20" height="4" rx="2" className={ink} />
-      <rect x="190" y="78" width="20" height="4" rx="2" className="fill-white/80" />
+      <rect x="190" y="78" width="20" height="4" rx="2" className="fill-primary-foreground/80" />
       <rect x="190" y="128" width="20" height="4" rx="2" className={ink} />
     </>
   );
@@ -102,7 +102,7 @@ function Integrations() {
       ))}
       <circle cx="120" cy="80" r="26" className="fill-primary/10" />
       <circle cx="120" cy="80" r="17" className="fill-primary" />
-      <path d="M114 76h12M114 84h12M120 70v20" strokeWidth="2" strokeLinecap="round" className="stroke-white" />
+      <path d="M114 76h12M114 84h12M120 70v20" strokeWidth="2" strokeLinecap="round" className="stroke-primary-foreground" />
     </>
   );
 }
@@ -121,8 +121,8 @@ function Intelligence() {
       ].map(({ y, w, accent }) => (
         <g key={y}>
           <rect x="142" y={y} width={w + 18} height="20" rx="10" className={accent ? "fill-primary" : brandSoft} />
-          <circle cx="152" cy={y + 10} r="3" className={accent ? "fill-white" : "fill-primary"} />
-          <rect x="160" y={y + 8} width={w - 10} height="4" rx="2" className={accent ? "fill-white/80" : "fill-primary/40"} />
+          <circle cx="152" cy={y + 10} r="3" className={accent ? "fill-primary-foreground" : "fill-primary"} />
+          <rect x="160" y={y + 8} width={w - 10} height="4" rx="2" className={accent ? "fill-primary-foreground/80" : "fill-primary/40"} />
         </g>
       ))}
       <path d="M150 124l4-8 4 8-8-5h8z" className="fill-primary/60" />

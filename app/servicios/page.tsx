@@ -85,7 +85,7 @@ export default function ServicesPage() {
             title="Primero el proceso, después el código"
             description="Cada proyecto parte de entender la operación de tu empresa."
           />
-          <div className="mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10 lg:mt-14">
+          <div className="reveal mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10 lg:mt-14">
             <ProcessFlow steps={workSteps} layout="horizontal" label="Etapas de trabajo" />
           </div>
         </Container>

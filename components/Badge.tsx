@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 const tones = {
   neutral: "border-border bg-card text-muted-foreground",
   brand: "border-transparent bg-brand-soft text-brand-soft-foreground",
-  progress: "border-amber-600/20 bg-amber-50 text-amber-800",
+  progress: "border-amber-600/20 bg-amber-50 text-amber-800 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-200",
 } as const;
 
 const dots = {

@@ -37,7 +37,7 @@ export function ProblemsSection() {
       />
 
       <Container className="grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
-        <div>
+        <div className="reveal">
           <SectionTitle
             tone="dark"
             id="problemas-titulo"
@@ -67,7 +67,7 @@ export function ProblemsSection() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-ink-border bg-white/[0.03] p-6 backdrop-blur-sm sm:p-10">
+        <div className="reveal rounded-3xl border border-ink-border bg-white/[0.03] p-6 backdrop-blur-sm sm:p-10">
           <p className="eyebrow text-brand-sky">Con NUVEXA</p>
           <h3 className="mt-4 text-xl leading-snug font-semibold tracking-tight text-ink-foreground sm:text-2xl">
             Convertimos procesos manuales en software organizado y automatizado.

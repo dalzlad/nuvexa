@@ -37,7 +37,7 @@ export function ServiceCard({
       <article
         id={service.id}
         aria-labelledby={`${service.id}-titulo`}
-        className={cn("grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16", className)}
+        className={cn("reveal grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16", className)}
       >
         <div className={cn(reverse && "lg:order-2")}>
           <div className="flex items-center gap-3">

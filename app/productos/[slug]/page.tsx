@@ -228,7 +228,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
             title={detail.flow.title}
             description={detail.flow.description}
           />
-          <div className="mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10">
+          <div className="reveal mt-12 rounded-3xl border bg-card p-6 shadow-surface sm:p-10">
             <ProcessFlow steps={detail.flow.steps} layout="horizontal" label={`Flujo de ${product.name}`} />
           </div>
 
@@ -266,7 +266,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
             )}
 
             {detail.features && (
-              <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="reveal mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border sm:grid-cols-2 lg:grid-cols-3">
                 {detail.features.items.map((feature) => (
                   <li key={feature.title} className="flex gap-3 bg-card p-6 sm:p-7">
                     <Check className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
@@ -292,7 +292,7 @@ export default async function ProductPage({ params }: PageProps<"/productos/[slu
               title={detail.outcomes.title}
               description={detail.outcomes.description}
             />
-            <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="reveal-stagger mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {detail.outcomes.items.map((item) => (
                 <li key={item.title} className="border-l-2 border-primary py-1 pl-5">
                   <h3 className="font-semibold tracking-tight text-foreground">{item.title}</h3>

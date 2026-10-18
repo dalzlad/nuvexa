@@ -90,7 +90,7 @@ export default function CompanyPage() {
         <Container>
           <SectionTitle id="enfoque-titulo" eyebrow="Qué hacemos" title={companyFocus.title} />
           <div className="relative mt-12 lg:mt-14">
-            <ul className="grid gap-4 md:grid-cols-2 md:gap-6">
+            <ul className="reveal-stagger grid gap-4 md:grid-cols-2 md:gap-6">
               {companyFocus.items.map((item, index) => (
                 <li
                   key={item.title}
@@ -127,7 +127,7 @@ export default function CompanyPage() {
       <section aria-labelledby="valores-titulo" className="py-20 sm:py-28">
         <Container>
           <SectionTitle id="valores-titulo" eyebrow="Valores" title="Lo que guía nuestro trabajo" />
-          <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+          <ul className="reveal mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
             {values.map(({ title, description, icon: Icon }, index) => (
               <li key={title} className="group bg-card p-6 transition-colors hover:bg-muted/40 sm:p-8">
                 <div className="flex items-center justify-between">

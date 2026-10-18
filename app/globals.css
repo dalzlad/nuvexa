@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -106,40 +106,53 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/*
+ * Modo oscuro: azul tinta profundo como base (no gris neutro), el azul NUVEXA aclarado
+ * para mantener contraste AA y superficies "ink" un punto más claras que el fondo
+ * para que las secciones oscuras sigan leyéndose como bloques.
+ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --brand-soft: oklch(0.3 0.08 272);
-  --brand-soft-foreground: oklch(0.85 0.08 272);
+  color-scheme: dark;
+  --background: oklch(0.155 0.022 270);
+  --foreground: oklch(0.96 0.006 270);
+  --card: oklch(0.195 0.026 270);
+  --card-foreground: oklch(0.96 0.006 270);
+  --popover: oklch(0.205 0.028 270);
+  --popover-foreground: oklch(0.96 0.006 270);
+  --primary: oklch(0.7 0.15 272);
+  /* Texto oscuro sobre el azul aclarado: contraste AA en botones. */
+  --primary-foreground: oklch(0.17 0.04 270);
+  --secondary: oklch(0.24 0.026 270);
+  --secondary-foreground: oklch(0.94 0.008 270);
+  --muted: oklch(0.205 0.024 270);
+  --muted-foreground: oklch(0.73 0.022 270);
+  --accent: oklch(0.25 0.04 272);
+  --accent-foreground: oklch(0.95 0.008 270);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 0.09);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.7 0.15 272);
+  --brand-soft: oklch(0.28 0.07 272);
+  --brand-soft-foreground: oklch(0.86 0.09 272);
+  --brand-sky: oklch(0.74 0.13 235);
+  --ink: oklch(0.2 0.04 270);
+  --ink-foreground: oklch(0.97 0.005 270);
+  --ink-muted: oklch(0.76 0.02 270);
+  --ink-border: oklch(1 0 0 / 0.1);
+  --success: oklch(0.62 0.14 155);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar: oklch(0.195 0.026 270);
+  --sidebar-foreground: oklch(0.96 0.006 270);
+  --sidebar-primary: oklch(0.7 0.15 272);
+  --sidebar-primary-foreground: oklch(0.17 0.04 270);
+  --sidebar-accent: oklch(0.25 0.04 272);
+  --sidebar-accent-foreground: oklch(0.95 0.008 270);
+  --sidebar-border: oklch(1 0 0 / 0.09);
+  --sidebar-ring: oklch(0.66 0.17 272);
 }
 
 /* Movimiento: breve y discreto. Todo se desactiva con prefers-reduced-motion. */
@@ -239,12 +252,66 @@
   box-shadow:
     0 1px 2px oklch(0.2 0.035 268 / 0.05),
     0 8px 24px -12px oklch(0.2 0.035 268 / 0.14);
+  .dark & {
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 0.3),
+      0 8px 24px -12px oklch(0 0 0 / 0.6);
+  }
 }
 
 @utility shadow-elevated {
   box-shadow:
     0 1px 2px oklch(0.2 0.035 268 / 0.06),
     0 28px 56px -24px oklch(0.3 0.12 272 / 0.32);
+  .dark & {
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 0.35),
+      0 28px 56px -24px oklch(0.05 0.08 272 / 0.8);
+  }
+}
+
+/*
+ * Aparición al hacer scroll, solo con CSS (scroll-driven animations).
+ * Sin soporte o con movimiento reducido, el contenido se muestra tal cual: nunca queda oculto.
+ */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/* Escalona la aparición de los hijos directos de una retícula de tarjetas. */
+@utility reveal-stagger {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      & > * {
+        animation: reveal-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+      & > :nth-child(3n + 2) {
+        animation-range: entry 8% entry 68%;
+      }
+      & > :nth-child(3n + 3) {
+        animation-range: entry 16% entry 76%;
+      }
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @layer base {
@@ -261,6 +328,11 @@
     @apply font-sans;
     scroll-padding-top: 5.5rem;
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+  .dark ::selection {
+    background: oklch(0.7 0.15 272 / 0.3);
   }
   ::selection {
     background: oklch(0.49 0.2 272 / 0.18);
@@ -289,5 +361,82 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Cabecera: gana sombra y una barra de progreso de lectura a medida que se hace scroll.
+ * Solo CSS; en navegadores sin scroll-driven animations la cabecera queda como siempre.
+ */
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation: header-elevate linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 140px;
+  }
+  .scroll-progress {
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes header-elevate {
+  to {
+    border-color: var(--border);
+    box-shadow: 0 10px 30px -18px oklch(0.2 0.035 268 / 0.35);
+  }
+}
+
+@keyframes scroll-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/*
+ * Transiciones entre páginas (View Transitions de React, ver app/template.tsx).
+ * La página saliente se desvanece rápido y la entrante sube suavemente; la cabecera no se mueve.
+ */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.page) {
+  animation: 140ms cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
+}
+::view-transition-new(.page) {
+  animation: 340ms cubic-bezier(0.2, 0.7, 0.2, 1) 90ms both vt-rise-in;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
