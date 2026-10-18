@@ -1,7 +1,7 @@
 /**
  * Configuración pública del sitio: dominio y correo de contacto.
  *
- * En producción, NEXT_PUBLIC_SITE_URL y CONTACT_EMAIL son obligatorias:
+ * En producción, SITE_URL y CONTACT_EMAIL son obligatorias:
  * content/site.ts llama a resolveSiteConfig() y el build falla con un mensaje claro
  * si faltan o no son válidas.
  * En desarrollo se usan valores locales que nunca llegan a una compilación de producción.
@@ -37,12 +37,12 @@ function siteUrlError(value: string): string | null {
   try {
     url = new URL(value);
   } catch {
-    return "NEXT_PUBLIC_SITE_URL debe ser una URL absoluta (p. ej. https://<dominio>).";
+    return "SITE_URL debe ser una URL absoluta (p. ej. https://<dominio>).";
   }
-  if (url.protocol !== "https:") return "NEXT_PUBLIC_SITE_URL debe usar https://.";
-  if (isLocalHostname(url.hostname)) return "NEXT_PUBLIC_SITE_URL no puede apuntar a localhost ni a una dirección local.";
+  if (url.protocol !== "https:") return "SITE_URL debe usar https://.";
+  if (isLocalHostname(url.hostname)) return "SITE_URL no puede apuntar a localhost ni a una dirección local.";
   if (url.username || url.password || url.search || url.hash || url.pathname !== "/") {
-    return "NEXT_PUBLIC_SITE_URL debe contener solo el dominio, sin ruta, parámetros ni credenciales.";
+    return "SITE_URL debe contener solo el dominio, sin ruta, parámetros ni credenciales.";
   }
   return null;
 }
@@ -60,7 +60,7 @@ export function siteConfigErrors({ url, email }: SiteConfigInput): string[] {
   const siteUrl = url?.trim();
   const contactEmail = email?.trim();
 
-  if (!siteUrl) errors.push("NEXT_PUBLIC_SITE_URL no está definida.");
+  if (!siteUrl) errors.push("SITE_URL no está definida.");
   else {
     const error = siteUrlError(siteUrl);
     if (error) errors.push(error);

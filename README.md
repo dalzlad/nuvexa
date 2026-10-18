@@ -17,10 +17,10 @@ npm test           # pruebas del formulario y de la configuración del sitio (ru
 npm run build && npm start
 ```
 
-`npm run build` exige `NEXT_PUBLIC_SITE_URL` y `CONTACT_EMAIL` (ver abajo). Para compilar en local sin `.env.local`, pásalas solo a ese comando, por ejemplo:
+`npm run build` exige `SITE_URL` y `CONTACT_EMAIL` (ver abajo). Para compilar en local sin `.env.local`, pásalas solo a ese comando, por ejemplo:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://<dominio> CONTACT_EMAIL=<correo> npm run build
+SITE_URL=https://<dominio> CONTACT_EMAIL=<correo> npm run build
 ```
 
 ## Variables de entorno
@@ -29,14 +29,14 @@ Copia `.env.example` a `.env.local` y completa:
 
 | Variable | Uso |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Dominio público (metadata, canonical, Open Graph, sitemap, robots). **Obligatoria en producción**: `https://`, sin ruta y sin localhost. |
+| `SITE_URL` | Dominio público (metadata, canonical, Open Graph, sitemap, robots). **Obligatoria en producción**: `https://`, sin ruta y sin localhost. |
 | `CONTACT_EMAIL` | Correo de contacto que se muestra en el sitio (pie de página, `/contacto` y respaldo del formulario), del dominio. **Obligatoria en producción.** Se lee en el servidor; los componentes del cliente lo reciben como prop. Se publica en el HTML: no es un secreto. |
 | `RESEND_API_KEY` | Clave de Resend para enviar las solicitudes del formulario por correo. Solo del servidor. |
 | `LEADS_EMAIL_TO` | Correo(s) que reciben las solicitudes, separados por comas (máximo 5). Obligatoria si se usa Resend. |
 | `LEADS_EMAIL_FROM` | Opcional. Remitente en un dominio verificado en Resend (`correo@dominio` o `Nombre <correo@dominio>`). Vacía = `onboarding@resend.dev` (solo entrega al correo de la cuenta de Resend). |
 | `LEADS_WEBHOOK_URL` | Opcional. Alternativa a Resend: destino del formulario (POST JSON). Solo se usa si no hay `RESEND_API_KEY`. |
 
-- Ninguna de estas variables lleva el prefijo `NEXT_PUBLIC_`, salvo `NEXT_PUBLIC_SITE_URL`.
+- Ninguna de estas variables lleva el prefijo `NEXT_PUBLIC_`: todas se leen solo en el servidor.
 - Sin `RESEND_API_KEY` ni `LEADS_WEBHOOK_URL`, el formulario no envía nada y ofrece escribir por correo.
 - `npm run build` falla con un mensaje claro si faltan las variables obligatorias o no son válidas (validación en `lib/site-config.ts`). En `npm run dev` se usan valores locales: `http://localhost:3000` y `correo-no-configurado@example.invalid`.
 
@@ -77,7 +77,7 @@ content/
   navigation.ts              Navegación, columnas del pie de página y rutas del sitemap
   values.ts                  Valores de la empresa
 lib/
-  site-config.ts             Validación de NEXT_PUBLIC_SITE_URL y CONTACT_EMAIL
+  site-config.ts             Validación de SITE_URL y CONTACT_EMAIL
   metadata.ts                Metadata SEO por página
   lead-form.ts               Campos, límites y validación del formulario (seguro para el cliente)
   interest.ts                Lógica de preselección y etiquetas de interés, sin datos (seguro para el cliente)
@@ -163,7 +163,7 @@ Contrato del webhook:
 `npm test` ejecuta `tests/*.test.mjs` con el runner integrado de Node (`node --test`, con `tests/setup.mjs`):
 
 - `tests/leads.test.mjs`: validación y lectura del formulario, campo trampa e identificador de envío, entrega sin destino, con Resend y con webhook simulados (no se envían correos reales), contenido del correo y límite de envíos.
-- `tests/site-config.test.mjs`: validación de `NEXT_PUBLIC_SITE_URL` y `CONTACT_EMAIL` y comportamiento en producción.
+- `tests/site-config.test.mjs`: validación de `SITE_URL` y `CONTACT_EMAIL` y comportamiento en producción.
 
 ## Tareas frecuentes
 
