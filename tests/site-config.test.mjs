@@ -1,4 +1,4 @@
-// Pruebas de la configuración pública del sitio (NEXT_PUBLIC_SITE_URL y CONTACT_EMAIL).
+// Pruebas de la configuración pública del sitio (SITE_URL y CONTACT_EMAIL).
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
@@ -14,7 +14,7 @@ describe("siteConfigErrors", () => {
   it("exige las dos variables y las nombra en el mensaje", () => {
     const errors = siteConfigErrors({ url: undefined, email: " " });
     assert.equal(errors.length, 2);
-    assert.match(errors[0], /NEXT_PUBLIC_SITE_URL/);
+    assert.match(errors[0], /^SITE_URL /);
     assert.match(errors[1], /^CONTACT_EMAIL /);
   });
 

@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 import { hiddenProductSlugs } from "./content/product-visibility";
 
-// NEXT_PUBLIC_SITE_URL y CONTACT_EMAIL se validan en lib/site-config.ts:
+// SITE_URL y CONTACT_EMAIL se validan en lib/site-config.ts:
 // el build de producción falla si faltan o no son válidas. No se valida aquí porque
 // `next typegen` (npm run typecheck) también carga este archivo y debe funcionar sin ellas.
 const nextConfig: NextConfig = {
