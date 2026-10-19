@@ -8,7 +8,7 @@ import { site } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden bg-ink text-ink-foreground">
+    <footer className="relative isolate overflow-hidden bg-ink text-ink-foreground" data-hide-mobile-cta>
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-grid [--grid-color:oklch(1_0_0/0.05)] mask-[linear-gradient(to_bottom,black,transparent_70%)]"

@@ -16,7 +16,7 @@ export function ProductsSection() {
   return (
     <section aria-labelledby="productos-titulo" className="py-20 sm:py-28">
       <Container>
-        <div className="grid gap-10 rounded-3xl border bg-card p-6 shadow-surface sm:p-10 lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-14 lg:p-12">
+        <div className="reveal grid gap-10 rounded-3xl border bg-card p-6 shadow-surface sm:p-10 lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-14 lg:p-12">
           <div>
             <p className="eyebrow flex items-center gap-2.5">
               <span aria-hidden="true" className="h-px w-5 bg-current opacity-60" />
@@ -61,10 +61,14 @@ export function ProductsSection() {
                       {product.name}
                     </Link>
                     {product.category && (
-                      <p className="mt-0.5 truncate text-sm text-muted-foreground">{product.category}</p>
+                      <p className="mt-0.5 text-sm leading-snug text-muted-foreground">{product.category}</p>
                     )}
+                    {/* En pantallas estrechas el estado va bajo el nombre: a la derecha no cabe. */}
+                    <Badge tone={available ? "brand" : "progress"} dot className="mt-2 flex w-fit sm:hidden">
+                      {available ? "Disponible" : "Próximamente"}
+                    </Badge>
                   </div>
-                  <Badge tone={available ? "brand" : "progress"} dot className="hidden min-[400px]:inline-flex">
+                  <Badge tone={available ? "brand" : "progress"} dot className="hidden sm:inline-flex">
                     {available ? "Disponible" : "Próximamente"}
                   </Badge>
                   <ChevronRight

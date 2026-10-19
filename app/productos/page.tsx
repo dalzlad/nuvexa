@@ -61,7 +61,7 @@ export default function ProductsPage() {
             <h2 id="disponibles-titulo" className="text-2xl font-semibold tracking-tight text-foreground">
               Disponibles
             </h2>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            <div className="reveal-stagger mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
               {availableProducts.map((product) => (
                 <ProductCard
                   key={product.slug}
@@ -87,7 +87,7 @@ export default function ProductsPage() {
               title="Productos en desarrollo"
               description="Escríbenos si quieres conocerlos antes de su lanzamiento."
             />
-            <ul className="mt-10 divide-y overflow-hidden rounded-3xl border bg-card shadow-surface">
+            <ul className="reveal mt-10 divide-y overflow-hidden rounded-3xl border bg-card shadow-surface">
               {upcomingProducts.map((product) => {
                 const Icon = product.icon;
                 return (

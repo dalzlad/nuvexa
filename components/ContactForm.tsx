@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { startTransition, useActionState, useRef, useState } from "react";
 import { AlertCircle, ArrowRight, Check, Info, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -98,7 +98,18 @@ export function ContactForm({
     );
 
   return (
-    <form ref={formRef} action={formAction} className="relative rounded-3xl border bg-card p-5 shadow-elevated sm:p-8 lg:p-10" aria-describedby="form-nota">
+    <form
+      ref={formRef}
+      action={formAction}
+      // Con JavaScript, el envío se hace aquí y no por `action`: así React no restablece el formulario
+      // al responder y la opción elegida en el Select de Radix no se pierde tras un error.
+      // Sin JavaScript (antes de hidratar), `action` sigue enviando el formulario.
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        startTransition(() => formAction(formData));
+      }}
+      className="relative rounded-3xl border bg-card p-5 shadow-elevated sm:p-8 lg:p-10" aria-describedby="form-nota">
       {/* Al reintentar se reenvía el mismo identificador para que el destino pueda descartar duplicados. */}
       {"submissionId" in state && state.submissionId && (
         <input type="hidden" name={SUBMISSION_ID_FIELD} value={state.submissionId} />
@@ -184,8 +195,8 @@ export function ContactForm({
       </fieldset>
 
       {(state.status === "not-configured" || state.status === "failed" || state.status === "rate-limited") && values && (
-        <div role="alert" className="mt-6 flex gap-3 rounded-2xl border border-amber-600/20 bg-amber-50 p-4 sm:p-5">
-          <Info className="mt-0.5 size-5 shrink-0 text-amber-700" aria-hidden="true" />
+        <div role="alert" className="mt-6 flex gap-3 rounded-2xl border border-amber-600/20 bg-amber-50 p-4 sm:p-5 dark:border-amber-400/20 dark:bg-amber-400/10">
+          <Info className="mt-0.5 size-5 shrink-0 text-amber-700 dark:text-amber-300" aria-hidden="true" />
           <div className="text-sm leading-relaxed">
             <p className="font-medium text-foreground">
               {state.status === "not-configured"

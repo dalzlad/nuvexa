@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" className={cn("size-7", className)}>
-      <rect width="32" height="32" rx="8" className="fill-primary" />
+      {/* Azul de marca fijo: el logotipo no cambia con el tema. */}
+      <rect width="32" height="32" rx="8" className="fill-[oklch(0.49_0.2_272)]" />
       <path
         d="M10.5 21.5v-11l11 11v-11"
         fill="none"

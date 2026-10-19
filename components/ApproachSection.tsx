@@ -31,12 +31,12 @@ export function ApproachSection() {
             </figure>
           </div>
 
-          <div className="rounded-3xl border bg-card p-6 shadow-surface sm:p-10">
+          <div className="reveal rounded-3xl border bg-card p-6 shadow-surface sm:p-10">
             <ProcessFlow steps={workSteps} label="Etapas de trabajo" />
           </div>
         </div>
 
-        <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border bg-border sm:grid-cols-3 lg:mt-20">
+        <ul className="reveal mt-14 grid gap-px overflow-hidden rounded-2xl border bg-border sm:grid-cols-3 lg:mt-20">
           {principles.map(({ title, description, icon: Icon }) => (
             <li key={title} className="bg-card p-6 sm:p-7">
               <Icon className="size-5 text-primary" aria-hidden="true" />

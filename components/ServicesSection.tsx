@@ -12,7 +12,7 @@ export function ServicesSection() {
   return (
     <section aria-labelledby="servicios-titulo" className="py-20 sm:py-28">
       <Container>
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="reveal flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle
             id="servicios-titulo"
             eyebrow="Capacidades"
@@ -28,7 +28,7 @@ export function ServicesSection() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-6 lg:gap-5">
+        <div className="reveal-stagger mt-12 grid gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-6 lg:gap-5">
           {services.map((service, index) => {
             const last = index === services.length - 1;
             return (
