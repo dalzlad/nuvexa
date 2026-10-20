@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Bot, Waves } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceVisual } from "@/components/ServiceVisual";
+import { TechnologyProjectsSection } from "@/components/TechnologyProjectsSection";
 import { Button } from "@/components/ui/button";
 import {
   availableProducts,
@@ -23,8 +24,8 @@ const hasAvailable = availableProducts.length > 0;
 
 // Mientras no haya productos publicados, el texto describe el estado real del catálogo.
 const description = hasAvailable
-  ? "Cada producto resuelve un proceso operativo concreto de principio a fin. Conoce qué hace cada uno y solicita una demostración."
-  : "Desarrollamos productos propios para procesos operativos concretos. Escríbenos si quieres conocerlos antes de su lanzamiento.";
+  ? "Explora nuestro software para procesos empresariales. Los proyectos de robótica e IoT están en una sección independiente más abajo."
+  : "Conoce el software que desarrollamos para procesos empresariales. Más abajo encontrarás, por separado, nuestros proyectos de robótica e IoT.";
 
 export const metadata: Metadata = pageMetadata({
   title: "Productos",
@@ -38,7 +39,7 @@ export default function ProductsPage() {
       <PageHeader
         id="productos-titulo"
         eyebrow="Productos"
-        title="Productos SaaS para la operación de tu empresa"
+        title="Software para la operación de tu empresa"
         description={description}
       >
         <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
@@ -59,7 +60,7 @@ export default function ProductsPage() {
         <section aria-labelledby="disponibles-titulo" className="pt-16 sm:pt-24">
           <Container>
             <h2 id="disponibles-titulo" className="text-2xl font-semibold tracking-tight text-foreground">
-              Disponibles
+              Productos de software disponibles
             </h2>
             <div className="reveal-stagger mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
               {availableProducts.map((product) => (
@@ -135,32 +136,7 @@ export default function ProductsPage() {
         </section>
       )}
 
-      <section aria-labelledby="proyectos-titulo" className="pt-16 sm:pt-24">
-        <Container>
-          <SectionTitle
-            id="proyectos-titulo"
-            eyebrow="Proyectos tecnológicos"
-            title="Robótica e IoT"
-            description="Explora nuestros proyectos de robótica e Internet de las cosas."
-          />
-          <div className="reveal-stagger mt-10 grid gap-4 md:grid-cols-2 lg:gap-5">
-            <ProjectCard
-              icon={Bot}
-              category="Robótica"
-              title="Nuvexa Scout"
-              description="Un proyecto de robótica desarrollado por NUVEXA. Conoce Nuvexa Scout y explora su propuesta."
-              href="https://nuvexa-scout.vercel.app/"
-            />
-            <ProjectCard
-              icon={Waves}
-              category="IoT"
-              title="AquaControl"
-              description="Una solución IoT de NUVEXA para el control del agua. Descubre el proyecto AquaControl."
-              href="https://nuvexa-aquacontrol.vercel.app/"
-            />
-          </div>
-        </Container>
-      </section>
+      <TechnologyProjectsSection />
 
       <section aria-labelledby="a-medida-titulo" className="pt-16 sm:pt-24">
         <Container>
@@ -209,41 +185,5 @@ export default function ProductsPage() {
         />
       )}
     </>
-  );
-}
-
-function ProjectCard({
-  icon: Icon,
-  category,
-  title,
-  description: projectDescription,
-  href,
-}: {
-  icon: typeof Bot;
-  category: string;
-  title: string;
-  description: string;
-  href: string;
-}) {
-  return (
-    <article className="group relative flex flex-col rounded-2xl border bg-card p-6 transition-[border-color,box-shadow] hover:border-primary/35 hover:shadow-surface sm:p-7">
-      <div className="flex items-start justify-between gap-3">
-        <span className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-surface" aria-hidden="true">
-          <Icon className="size-5" />
-        </span>
-        <Badge tone="brand">{category}</Badge>
-      </div>
-      <h3 className="mt-7 text-lg font-semibold tracking-tight text-foreground sm:text-xl">{title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{projectDescription}</p>
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-7 inline-flex items-center gap-1.5 border-t pt-5 text-sm font-medium text-primary after:absolute after:inset-0 after:rounded-2xl"
-      >
-        Conocer el proyecto
-        <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-      </a>
-    </article>
   );
 }
